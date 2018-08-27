@@ -1,0 +1,204 @@
+﻿<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Smovies Voting</title>
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link rel="stylesheet" href="Styles/style.css">
+	<link href="https://use.fontawesome.com/releases/v5.0.1/css/all.css" rel="stylesheet">
+	<link rel="stylesheet" href="Styles/thumbs.css">
+	<link rel="stylesheet" href="Styles/bootstrap.min.css">
+	<script type="text/html" id="templatePrimary">
+		<div style="padding:20px">
+			<div class="pages">
+
+				<div v-if="!connected">
+					<div class="form" style="text-align:center;width:100%">
+						<div style="display:inline-block; width:400px">
+							<h1 class="title">
+								Welcome to Smovies.</h1>
+							<span v-if="errorMessage">{{errorMessage}}</span>
+							<div class="form-group">
+								<strong>What do you want to be called?</strong>
+								<input class="form-control input-lg" v-on:keyup.enter="login" type="text" maxlength="14" v-model="username" />
+								<strong>Password:</strong>
+								<br/>
+								<input v-model="currentPassword" type="password" class="form-control input-lg" maxlength="14" v-on:keyup.enter="login" />
+							</div>
+							<button class="btn btn-lg btn-info" @click="login">Login</button>
+						</div>
+					</div>
+				</div>
+				<div v-else>
+					<div class="chatArea">
+						<div class="row">
+
+							<div class="col-lg-4 col-md-4 col-sm-6">
+								<div class="panel panel-info">
+									<div class="panel-heading">
+										<h4>
+											<i class="fas fa-user"></i>
+											Users</h4>
+									</div>
+									<div class="panel-body">
+										<div class="userItem" v-for="user in loggedOnUsers">
+											<div :class="{checked: user.Online}">
+												<i class="fa-user-circle" :class="{far: !user.Online, fas: user.Online}"></i>
+												{{user.UserName}}
+												<span v-if="user.UserName==username">
+													*
+												</span>
+											</div>
+
+										</div>
+									</div>
+								</div>
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<h4>
+											<i class="fas fa-envelope"></i>
+											Messages</h4>
+									</div>
+									<div class="panel-body">
+										<div style="height: 500px; overflow:auto" id="chatwindow">
+											<div v-for="message in messages" class="message" :class="{'log': message.isLog}">
+												<span class="username">{{message.username}}</span>: {{message.message}}
+											</div>
+										</div>
+
+										<input type="text" class="form-control input-lg" maxlength="255" v-on:keyup.enter="sendMessage" v-model="currentMessage"
+										    style="width:100%" placeholder="Send a message..." />
+										<button type="button" class="btn btn-large btn-success" @click="sendMessage">Send</button>
+										<button type="button" class="btn btn-large btn-primary" :disabled="!canPlay" @click="sendGameChoice('Rock')">
+											<i class="fas fa-hand-rock-o"></i>
+
+											Rock
+										</button>
+										<button type="button" class="btn btn-large btn-danger" :disabled="!canPlay" @click="sendGameChoice('Scissors')">
+											<i class="fas fa-hand-scissors-o"></i>
+
+											Scissors</button>
+										<button type="button" class="btn btn-large btn-default" :disabled="!canPlay" @click="sendGameChoice('Paper')">
+											<i class="fas fa-hand-paper-o"></i>
+
+											Paper</button>
+
+									</div>
+
+								</div>
+							</div>
+
+							<div class="col-lg-8 col-md-8 col-sm-6">
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<h4>
+											<i class="fas fa-mail fa-thumbs-up"></i>
+											Suggestions</h4>
+
+									</div>
+									<div class="panel-body">
+										<div v-if="suggestions.length==0">
+											<em>There have been no suggestions made yet...</em>
+										</div>
+										<div class="form-group">
+
+											<input type="text" class="form-control input-lg" v-on:keyup.enter="sendSuggestion" v-model="currentSuggestion" style="width:100%"
+											    placeholder="Enter a suggestion here..." maxlength="255" />
+											<button type="button" class="btn btn-large btn-primary" @click="sendSuggestion">Suggest</button>
+											<button type="button" class="btn btn-large btn-danger" @click="calculateVotes">Calculate Votes</button>
+
+										</div>
+										<div v-for="suggestion in suggestions" class="suggestion">
+											<div class="suggestion-wrapper" @click="toggleSelected(suggestion)" :class="{checked: suggestion.selected}">
+												<div class="image-container">
+													<img :src="suggestion.thumbNail||'default.png'" />
+												</div>
+												<div class="text-container">
+													<h4 class="movie-name">{{suggestion.Name}}
+													</h4>
+													<br/>
+													<div class="suggested-user">
+														Suggested By: {{suggestion.UserName}}
+													</div>
+													<i class="icon-check"></i>
+													<i class="fa" style="font-size:32px;" :style="{color:(suggestion.selected? 'green':'gray')}" :class="{'fa-thumbs-down': !suggestion.selected, 'fa-thumbs-up': suggestion.selected}"></i>
+
+												</div>
+
+											</div>
+										</div>
+										<div v-if="selectedSuggestions.length!=0">
+											<div class="form-group">
+													{{selectedSuggestions.length}} items selected.
+											</div>
+											<br/>
+											<button type="button" class="btn btn-large btn-primary" @click="sendVotes">Send Votes</button>
+										</div>
+									</div>
+
+								</div>
+								<div v-if="currentVotingResults" class="panel panel-default">
+									<div class="panel-heading">
+										<h4>Results</h4>
+									</div>
+									<div class="panel-body">
+										{{currentVotingResults.username}} initiated the voting calculation.
+										<div v-if="currentVotingResults.winner">
+											<br/> {{currentVotingResults.winner.Name}} won.
+											<table class="table table-striped table-bordered table-hover">
+												<thead>
+													<tr>
+														<th>Movie</th>
+														<th>Votes</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr v-for="sug in currentVotingResults.suggestions" :class="{'success':currentVotingResults.winner.ID== sug.ID}">
+														<td>{{sug.Name}}</td>
+														<td>
+															<ul>
+																<li v-for="v in sug.votes">{{v}}</li>
+															</ul>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+
+										</div>
+
+										<div v-else>
+											No Votes
+										</div>
+
+									</div>
+								</div>
+
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</script>
+</head>
+
+<body>
+	<div id="divPrimary"></div>
+
+
+	<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+	<script src="vue.js"></script>
+	<script src="mainViewModel.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+	<script type="text/javascript">
+		initialize();
+	</script>
+	<!-- <script src="main.js"></script> -->
+</body>
+
+</html>

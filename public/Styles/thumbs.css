@@ -1,0 +1,90 @@
+.tsunami-user, .tsunami-thumbs {
+    cursor: pointer;
+    display: table;
+    height: 32px;
+    margin: 8px 0;
+}
+.tsunami-user, .tsunami-thumbs {
+     cursor: pointer;
+}
+
+    .tsunami-user.uncheckable, .tsunami-thumbs.uncheckable{
+         cursor: not-allowed !important;
+    }
+
+        .tsunami-user.uncheckable > i:before {
+            content: "\f10c" !important;
+        }
+
+            .tsunami-user.uncheckable.checked > i:before {
+                content: "\f111" !important;
+            }
+
+        .tsunami-thumbs.uncheckable > i:before {
+            content: "\f096" !important;
+        }
+
+            .tsunami-thumbs.uncheckable.checked > i:before {
+                content: "\f14a" !important;
+            }
+
+    .tsunami-user > *, .tsunami-thumbs > * {
+        display: table-cell;
+        vertical-align: middle;
+    }
+
+    .tsunami-user > i, .tsunami-thumbs > i {
+        text-align: center;
+        width: 80px;
+        color:#555;
+        font-size: 32px;
+        font-weight: normal;
+        font-style: normal;
+        text-decoration: inherit;
+        -webkit-font-smoothing: antialiased;
+        *margin-right: .3em;
+    }
+
+        .tsunami-user > i:before {
+            content: "\f2bd";
+        }
+
+        .tsunami-thumbs > i:before {
+            content: "\f096";
+        }
+
+        .tsunami-user:active > i:before {
+            content: "\f2be";
+        }
+
+        .tsunami-thumbs:hover > i:before {
+            content: "\f0c8";
+        }
+
+        .tsunami-thumbs:active > i:before {
+            content: "\f14a";
+        }
+
+        .uncheckable.tsunami-user > i, .uncheckable.tsunami-thumbs > i {
+            opacity: 0.5;
+        }
+
+        .tsunami-user.checked > i, .tsunami-thumbs.checked > i {
+            color: green!important;
+            content:"\f2be"
+        }
+
+        .tsunami-user.checklist.checked > i, .tsunami-thumbs.checklist.checked > i {
+            color: #5cb85c;
+        }
+            .tsunami-user.checked > i:before {
+                content: "\f2be";
+            }
+
+            .tsunami-thumbs.checked > i:before {
+                content: "\f14a";
+            }
+
+                .tsunami-thumbs.checked:active > i:before {
+                    content: "\f0c8";
+                }
