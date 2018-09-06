@@ -4,7 +4,10 @@
   "description": "my first socket.io app",
   "dependencies": {
     "ajax-request": "^1.2.3",
+    "body-parser": "^1.18.3",
     "express": "^4.15.2",
+    "express-rate-limit": "^3.1.0",
+    "mongoose": "^5.2.10",
     "socket.io": "^2.0.4"
   }
 }

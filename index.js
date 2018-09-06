@@ -2,7 +2,6 @@
 var useGoogle = (process.argv[2] == "useGoogle");
 var express = require('express');
 var app = express();
-app.use(express.static('public'));
 // var $ = require('jquery');
 const https = require('https');
 var server = require('http').createServer(app);
@@ -10,17 +9,54 @@ var io = require('socket.io')(server);
 var port = process.env.PORT || 5052;
 var request = require('request');
 const crypto = require('crypto');
-
+const dbConfig = require('./config/database.config.js');
 function sha256(data) {
   return crypto.createHash("sha256").update(data).digest("base64");
 }
-server.listen(port,"0.0.0.0", function () {
-  console.log('Server listening at port %d', port);
+const rateLimit = require("express-rate-limit");
+
+app.enable("trust proxy"); // only if you're behind a reverse proxy (Heroku, Bluemix, AWS ELB, Nginx, etc)
+
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 1000 // limit each IP to 100 requests per windowMs
 });
+
+//  apply to all requests
+app.use(limiter);
 
 
 app.get('/', function (req, res) {
-  res.sendFile(__dirname + '/public/index.html');
+    res.sendFile(__dirname + '/public/index.html');
+});
+
+//app.get('/', function (req, res) {
+//    if (authenticated.checkIsAuthenticatedRequest(req, res)) {
+//        res.sendFile(__dirname + '/public/rooms.html');
+
+//    }
+//    else {
+//        res.sendFile(__dirname + '/public/login.html');
+
+//    }
+//});
+
+app.use(express.static('public'));
+const bodyParser = require('body-parser');
+app.use(bodyParser.json())
+const authenticated = require('./modules/Authenticated.js');
+
+// configure the app to use bodyParser()
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+require('./routes/user.routes.js')(app);
+require('./routes/auth.routes.js')(app);
+require('./routes/room.routes.js')(app);
+require('./routes/join.room.routes.js')(app);
+
+server.listen(port,"0.0.0.0", function () {
+  console.log('Server listening at port %d', port);
 });
 // Chatroom
 

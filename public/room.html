@@ -1,0 +1,61 @@
+﻿<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Smovies Voting</title>
+    <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="stylesheet" href="Styles/style.css">
+    <link href="https://use.fontawesome.com/releases/v5.0.1/css/all.css" rel="stylesheet">
+    <link rel="stylesheet" href="Styles/thumbs.css">
+    <link rel="stylesheet" href="Styles/bootstrap.min.css">
+    <script type="text/html" id="templatePrimary">
+
+        <div>
+            <div v-if="room" class="room">
+                {{room.Name}}
+            </div>
+            <a @click="addRoom">Add Room</a>
+        </div>
+
+    </script>
+</head>
+
+<body>
+    <div id="divPrimary"></div>
+
+
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="Scripts/vue.js"></script>
+    <script src="/Scripts/main.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript">
+        new Vue({
+            el: "#divPrimary",
+            template: "#templatePrimary",
+            data: {
+                room: null
+            },
+            methods: {
+                getRooms: function () {
+                    $.get("/rooms/" + getParameterByName("roomId"), this.setRoom);
+                },
+                addRoom: function () {
+                    $.post("/rooms", {Name: "Name"});
+                },
+                setRoom: function (room) {
+                    this.room = room;
+                }
+            },
+            created: function () {
+                this.getRooms();
+            }
+        });
+
+    </script>
+    <!-- <script src="main.js"></script> -->
+</body>
+
+</html>
