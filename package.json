@@ -8,6 +8,11 @@
     "express": "^4.15.2",
     "express-rate-limit": "^3.1.0",
     "mongoose": "^5.2.10",
+    "node-sass": "^4.9.3",
+    "scss": "^0.2.4",
     "socket.io": "^2.0.4"
+  },
+  "scripts": {
+    "scss": "node-sass --watch scss -o public/Styles"
   }
 }

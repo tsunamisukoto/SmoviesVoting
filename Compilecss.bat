@@ -1,1 +1,2 @@
 npm run scss
+pause

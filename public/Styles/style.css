@@ -1,98 +1,115 @@
-body{
-	background: #bbdefb!important;
-	color:#555 !important;
-}
-.userItem{
+body {
+  background: #001447 !important;
+  color: #b2c8ff !important; }
+
+.userItem {
   padding: 10px 5px;
-  font-size:15px;
-}
-.userItem .fa-user-circle
-{
-	font-size:1.5em
-}
-.userItem .checked .fa-user-circle
-{
-	color:#99b433;
-}
-.message{
+  font-size: 15px;
+  color: #000d2d; }
+  .userItem .fa-user-circle {
+    font-size: 1.5em; }
+  .userItem .checked .fa-user-circle {
+    color: #99b433; }
 
-	color:#555;
-	padding: 5px;
-}
-.message.log{
+.voting-panel {
+  color: #000d2d; }
+  .voting-panel .table th {
+    background-color: #000d2d;
+    color: #b2c8ff; }
 
-	font-style: italic;
-	font-size: 1.2em;
+.message {
+  color: #000d2d;
+  padding: 5px; }
+  .message.log {
+    font-style: italic;
+    font-size: 1.2em; }
+  .message .username {
+    font-weight: bold;
+    font-size: 1.2em; }
+  .message .suggestion {
+    padding: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #bebebe;
+    display: table;
+    width: 100%; }
 
-}
-.message .username{
-	font-weight: bold;
-font-size: 1.2em;
-}
-.suggestion
-{
-	padding: 5px;
-	margin-bottom:10px;
-	border: 1px solid #bebebe;
-	display: table;
-	width: 100%
-}
-.suggestion .suggestion-wrapper{
+.scott-panel {
+  background: #b2c8ff;
+  margin-bottom: 10px; }
+  .scott-panel .panel-heading {
+    font-weight: bold;
+    background: #000d2d;
+    color: white; }
 
-	display: table-row;
-	width:100%;
-	cursor: pointer;
-	background:lightgrey;
-}
-.suggestion-wrapper.checked
-{
-	background:#dcf5e8;
-}
-.suggestion img
-{
-	max-width:150px; 
-	max-height:150px;	
-}
-.suggestion .image-container
-{
-	padding:15px;
-	width:165px;
-	height:165px;
-	background: #555;
-	display:table-cell;
-	text-align: center;
+.suggestion .suggestion-wrapper {
+  width: 100%;
+  cursor: pointer;
+  background: lightgrey;
+  color: #000d2d; }
+  .suggestion .suggestion-wrapper .image-container {
+    padding: 15px;
+    background: #555;
+    text-align: center;
+    display: inline-block; }
+    @media (min-width: 768px) {
+      .suggestion .suggestion-wrapper .image-container {
+        width: 165px;
+        height: 165px; } }
+    @media (min-width: 768px) {
+      .suggestion .suggestion-wrapper .image-container img {
+        max-width: 135px;
+        max-height: 135px; } }
+  .suggestion .suggestion-wrapper .text-container {
+    vertical-align: top;
+    padding: 10px;
+    display: inline-block; }
+  .suggestion .suggestion-wrapper.checked {
+    background: #dcf5e8; }
+    .suggestion .suggestion-wrapper.checked .image-container {
+      background-color: darkgreen; }
 
-}
-.suggestion .text-container{
-	display: table-cell;
-	vertical-align: top;
-	padding:10px;
-}
 /* Create the animation blocks */
 @keyframes pop {
-	from { transform:translate(0px, -10px); }
-	to { transform:translate(0px,0px); }
-}
+  from {
+    transform: translate(0px, -10px); }
+  to {
+    transform: translate(0px, 0px); } }
+
 @keyframes spin {
-	from { transform: rotate(0deg); }
-	to { transform: rotate(360deg); }
-}
+  from {
+    transform: rotate(0deg); }
+  to {
+    transform: rotate(360deg); } }
+
+@keyframes pulse_animation {
+  0% {
+    transform: scale(1); }
+  50% {
+    transform: scale(0.75); }
+  100% {
+    transform: scale(1); } }
+
+.pulse {
+  animation-name: pulse_animation;
+  animation-duration: 1000ms;
+  transform-origin: 70% 70%;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear; }
 
 /* Spinning, gradient circle; CSS only! */
-.userStatus{
+.userStatus {
   display: inline-block;
-	width: 15px;
-	height: 15px;
+  width: 15px;
+  height: 15px;
   background: lightslategray;
-	border-radius: 50%;
-}
+  border-radius: 50%; }
+
 .active {
-  background: lightgreen;
-	
-}
+  background: lightgreen; }
+
 .active {
-	animation-name: pop; 
-	animation-duration: 0.3s; /* 3 seconds */
-	animation-iteration-count: 1; 
-	animation-timing-function: linear;
-}
+  animation-name: pop;
+  animation-duration: 0.3s;
+  /* 3 seconds */
+  animation-iteration-count: 1;
+  animation-timing-function: linear; }

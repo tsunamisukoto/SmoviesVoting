@@ -23,6 +23,7 @@ function initialize() {
       suggestions: [],
       canPlay: true,
       maxVotes: 2,
+      currentTick: 0,
       votingLocked: false,
       currentVotingResults: null
     },
@@ -36,6 +37,9 @@ function initialize() {
         this.currentVotingResults = data;
         this.unlockVotes();
 
+      },
+      incrementTick: function () {
+          this.currentTick = (this.currentTick + 1) % 3;
       },
 
       toggleSelected: function (data) {
@@ -108,8 +112,9 @@ function initialize() {
 
       },
       sendGameChoice: function (val) {
-        this.socket.emit('game choice', val);
-        this.canPlay = false;
+          this.canPlay = false;
+          var socket = this.socket;
+              socket.emit('game choice', val);
       },
       finishGame: function (data) {
         this.canPlay = true;
@@ -213,7 +218,7 @@ function initialize() {
       this.socket.on('reconnect_error', function () {
         log('attempt to reconnect has failed');
       });
-
+        setInterval(this.incrementTick, 1000);
     },
     computed: {
       selectedSuggestions: function () {

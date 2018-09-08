@@ -1,98 +1,159 @@
-body{
-	background: #bbdefb!important;
-	color:#555 !important;
-}
-.userItem{
-  padding: 10px 5px;
-  font-size:15px;
-}
-.userItem .fa-user-circle
-{
-	font-size:1.5em
-}
-.userItem .checked .fa-user-circle
-{
-	color:#99b433;
-}
-.message{
 
-	color:#555;
-	padding: 5px;
-}
-.message.log{
+$breakpoint-tablet: 768px;
+$primary-foreground-color: #000d2d;
+$primary-background-color: #b2c8ff;
 
-	font-style: italic;
-	font-size: 1.2em;
+body {
+    background: lighten($primary-foreground-color, 5%) !important;
+    color: $primary-background-color !important;
+}
+
+.userItem {
+    padding: 10px 5px;
+    font-size: 15px;
+    
+    color: $primary-foreground-color;
+    .fa-user-circle {
+        font-size: 1.5em;
+    }
+
+    .checked .fa-user-circle {
+        color: #99b433;
+    }
+}
+.voting-panel{
+    
+    color: $primary-foreground-color;
+    .table th
+    {
+        background-color: $primary-foreground-color;
+        color: $primary-background-color;
+    }
+}
+.message {
+    color: $primary-foreground-color;
+    padding: 5px;
+
+    &.log {
+        font-style: italic;
+        font-size: 1.2em;
+    }
+
+    .username {
+        font-weight: bold;
+        font-size: 1.2em;
+    }
+
+    .suggestion {
+        padding: 5px;
+        margin-bottom: 10px;
+        border: 1px solid #bebebe;
+        display: table;
+        width: 100%;
+    }
+}
+.scott-panel{
+    background:  $primary-background-color;
+    margin-bottom: 10px;
+    .panel-heading{
+        font-weight:bold;
+        background:$primary-foreground-color;
+        color:white;
+    }             
 
 }
-.message .username{
-	font-weight: bold;
-font-size: 1.2em;
-}
-.suggestion
-{
-	padding: 5px;
-	margin-bottom:10px;
-	border: 1px solid #bebebe;
-	display: table;
-	width: 100%
-}
-.suggestion .suggestion-wrapper{
+.suggestion {
 
-	display: table-row;
-	width:100%;
-	cursor: pointer;
-	background:lightgrey;
-}
-.suggestion-wrapper.checked
-{
-	background:#dcf5e8;
-}
-.suggestion img
-{
-	max-width:150px; 
-	max-height:150px;	
-}
-.suggestion .image-container
-{
-	padding:15px;
-	width:165px;
-	height:165px;
-	background: #555;
-	display:table-cell;
-	text-align: center;
+    .suggestion-wrapper {
+        width: 100%;
+        cursor: pointer;
+        background: lightgrey;
+        color: $primary-foreground-color;
 
+        .image-container {
+            
+             @media (min-width: $breakpoint-tablet) {
+                width: 165px;
+                height: 165px;
+            }
+            padding: 15px;
+
+            background: #555;
+            text-align: center;
+            display: inline-block;
+
+            img {
+                
+             @media (min-width: $breakpoint-tablet) {
+                max-width: 135px;
+                max-height: 135px;
+                }
+            }
+        }
+
+        .text-container {
+            vertical-align: top;
+            padding: 10px;
+            display: inline-block;
+        }
+
+        &.checked {
+            background: #dcf5e8;
+            .image-container {
+                background-color: darkgreen;
+            }
+        }
+    }
 }
-.suggestion .text-container{
-	display: table-cell;
-	vertical-align: top;
-	padding:10px;
-}
+
 /* Create the animation blocks */
 @keyframes pop {
-	from { transform:translate(0px, -10px); }
-	to { transform:translate(0px,0px); }
-}
-@keyframes spin {
-	from { transform: rotate(0deg); }
-	to { transform: rotate(360deg); }
+    from {
+        transform: translate(0px, -10px);
+    }
+
+    to {
+        transform: translate(0px,0px);
+    }
 }
 
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+@keyframes pulse_animation {
+    0% { transform: scale(1); }
+    50% { transform: scale(0.75); }
+    100% { transform: scale(1); }
+}
+.pulse {
+    animation-name: pulse_animation;
+    animation-duration: 1000ms;
+    transform-origin:70% 70%;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
 /* Spinning, gradient circle; CSS only! */
-.userStatus{
-  display: inline-block;
-	width: 15px;
-	height: 15px;
-  background: lightslategray;
-	border-radius: 50%;
+.userStatus {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    background: lightslategray;
+    border-radius: 50%;
 }
+
 .active {
-  background: lightgreen;
-	
+    background: lightgreen;
 }
+
 .active {
-	animation-name: pop; 
-	animation-duration: 0.3s; /* 3 seconds */
-	animation-iteration-count: 1; 
-	animation-timing-function: linear;
+    animation-name: pop;
+    animation-duration: 0.3s; /* 3 seconds */
+    animation-iteration-count: 1;
+    animation-timing-function: linear;
 }
