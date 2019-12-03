@@ -16,7 +16,7 @@ gulp.task('node-server-start', function (cb) {
 });
 
 gulp.task('ng-serve', function (cb) {
-  exec('ng serve', (error, stdout, stderr) => {
+  exec('ng serve --open --proxy-config=proxy.conf.json', (error, stdout, stderr) => {
     console.log(stdout);
     console.log(stderr);
     console.log(error);
