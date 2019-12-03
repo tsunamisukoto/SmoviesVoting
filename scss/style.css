@@ -1,61 +1,73 @@
 ﻿body {
-  background: #bbdefb !important;
-  color: #555 !important; }
+  background: #001447 !important;
+  color: #b2c8ff !important; }
 
 .userItem {
   padding: 10px 5px;
-  font-size: 15px; }
+  font-size: 15px;
+  color: #000d2d; }
+  .userItem .fa-user-circle {
+    font-size: 1.5em; }
+  .userItem .checked .fa-user-circle {
+    color: #99b433; }
 
-.userItem .fa-user-circle {
-  font-size: 1.5em; }
-
-.userItem .checked .fa-user-circle {
-  color: #99b433; }
+.voting-panel {
+  color: #000d2d; }
+  .voting-panel
+.table th {
+    background-color: #000d2d;
+    color: #b2c8ff; }
 
 .message {
-  color: #555;
+  color: #000d2d;
   padding: 5px; }
+  .message.log {
+    font-style: italic;
+    font-size: 1.2em; }
+  .message .username {
+    font-weight: bold;
+    font-size: 1.2em; }
+  .message .suggestion {
+    padding: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #bebebe;
+    display: table;
+    width: 100%; }
 
-.message.log {
-  font-style: italic;
-  font-size: 1.2em; }
-
-.message .username {
-  font-weight: bold;
-  font-size: 1.2em; }
-
-.suggestion {
-  padding: 5px;
-  margin-bottom: 10px;
-  border: 1px solid #bebebe;
-  display: table;
-  width: 100%; }
+.scott-panel {
+  background: #b2c8ff;
+  margin-bottom: 10px; }
+  .scott-panel .panel-heading {
+    font-weight: bold;
+    background: #000d2d;
+    color: white; }
 
 .suggestion .suggestion-wrapper {
-  display: table-row;
   width: 100%;
   cursor: pointer;
-  background: lightgrey; }
-
-.suggestion-wrapper.checked {
-  background: #dcf5e8; }
-
-.suggestion img {
-  max-width: 150px;
-  max-height: 150px; }
-
-.suggestion .image-container {
-  padding: 15px;
-  width: 165px;
-  height: 165px;
-  background: #555;
-  display: table-cell;
-  text-align: center; }
-
-.suggestion .text-container {
-  display: table-cell;
-  vertical-align: top;
-  padding: 10px; }
+  background: lightgrey;
+  color: #000d2d; }
+  .suggestion .suggestion-wrapper .image-container {
+    padding: 15px;
+    background: #555;
+    text-align: center;
+    display: inline-block; }
+    @media (min-width: 768px) {
+      .suggestion .suggestion-wrapper .image-container {
+        width: 165px;
+        height: 165px; } }
+    @media (min-width: 768px) {
+      .suggestion .suggestion-wrapper .image-container img {
+        max-width: 135px;
+        max-height: 135px; } }
+  .suggestion .suggestion-wrapper .text-container {
+    vertical-align: top;
+    padding: 10px;
+    display: inline-block; }
+  .suggestion .suggestion-wrapper.checked {
+    background: #dcf5e8; }
+    .suggestion .suggestion-wrapper.checked .image-container {
+      background-color: darkgreen; }
 
 /* Create the animation blocks */
 @keyframes pop {
@@ -69,6 +81,21 @@
     transform: rotate(0deg); }
   to {
     transform: rotate(360deg); } }
+
+@keyframes pulse_animation {
+  0% {
+    transform: scale(1); }
+  50% {
+    transform: scale(0.75); }
+  100% {
+    transform: scale(1); } }
+
+.pulse {
+  animation-name: pulse_animation;
+  animation-duration: 1000ms;
+  transform-origin: 70% 70%;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear; }
 
 /* Spinning, gradient circle; CSS only! */
 .userStatus {
