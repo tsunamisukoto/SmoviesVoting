@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit, Input } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-room',
@@ -6,8 +7,10 @@ import { ChangeDetectionStrategy, Component, OnInit, Input } from '@angular/core
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RoomComponent implements OnInit {
-  @Input() id: number;
-  constructor() { }
+  id: number;
+  constructor(activatedRoute: ActivatedRoute) {
+    activatedRoute.params.subscribe(params => this.id = params['id']);
+  }
 
   ngOnInit(): void {
   }
