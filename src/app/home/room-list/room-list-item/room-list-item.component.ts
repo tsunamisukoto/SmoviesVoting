@@ -1,4 +1,6 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { RoomListModel } from '../room.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-room-list-item',
@@ -6,10 +8,12 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RoomListItemComponent implements OnInit {
-
-  constructor() { }
+  @Input() room: RoomListModel;
+  constructor(readonly route: Router) { }
 
   ngOnInit(): void {
   }
-
+  enterRoom(): void {
+    this.route.navigate(['/room', this.room.id]);
+  }
 }

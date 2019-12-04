@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, Input } from '@angular/core';
+import { RoomService, RoomListModel } from './room.service';
 
 @Component({
   selector: 'app-room-list',
@@ -7,9 +8,20 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 })
 export class RoomListComponent implements OnInit {
 
-  constructor() { }
+  rooms: Array<RoomListModel>;
+  loading = false;
+  @Input() roomId: number;
 
+  constructor(readonly service: RoomService) { }
   ngOnInit(): void {
+    this.loadRooms();
+  }
+  loadRooms(): void {
+    this.loading = true;
+    this.service.GetRooms(this.roomId).subscribe(rooms => {
+      this.loading = false;
+      this.rooms = rooms;
+    });
   }
 
 }

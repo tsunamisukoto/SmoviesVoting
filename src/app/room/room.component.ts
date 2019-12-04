@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-room',
@@ -6,7 +6,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RoomComponent implements OnInit {
-
+  @Input() id: number;
   constructor() { }
 
   ngOnInit(): void {
