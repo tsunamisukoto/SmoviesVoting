@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit, Input } from '@angular/core';
 import { GroupListModel } from '../group.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-group-list-item',
@@ -9,9 +10,12 @@ import { GroupListModel } from '../group.service';
 export class GroupListItemComponent implements OnInit {
 
   @Input() group: GroupListModel;
-  constructor() { }
+  constructor(readonly route: Router) { }
 
   ngOnInit(): void {
   }
 
+  enterGroup(): void {
+    this.route.navigate(['/group', this.group.id]);
+  }
 }

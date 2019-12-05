@@ -1,5 +1,8 @@
-import { ChangeDetectionStrategy, Component, OnInit, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { RoomService, RoomListModel } from './room.service';
+import { ActivatedRoute } from '@angular/router';
+import { RoomEditModalComponent } from './room-edit-modal/room-edit-modal.component';
 
 @Component({
   selector: 'app-room-list',
@@ -10,18 +13,34 @@ export class RoomListComponent implements OnInit {
 
   rooms: Array<RoomListModel>;
   loading = false;
-  @Input() roomId: number;
+  groupId: number;
 
-  constructor(readonly service: RoomService) { }
+  constructor(readonly service: RoomService,
+              readonly activatedRoute: ActivatedRoute,
+              readonly cdr: ChangeDetectorRef, 
+              readonly dialog: MatDialog) { }
   ngOnInit(): void {
-    this.loadRooms();
+    this.activatedRoute.params.subscribe(params => {
+      this.groupId = params['groupId'];
+      this.loadRooms();
+    });
   }
   loadRooms(): void {
     this.loading = true;
-    this.service.GetRooms(this.roomId).subscribe(rooms => {
+    this.service.getRooms(this.groupId).then(rooms => {
       this.loading = false;
       this.rooms = rooms;
+      this.cdr.markForCheck();
     });
   }
+  openEditModal(id: number): void {
+    const dialogRef = this.dialog.open(RoomEditModalComponent, {
+      width: '250px',
+      data: { id, groupId: this.groupId }
+    });
 
+    dialogRef.afterClosed().subscribe(result => {
+      this.loadRooms();
+    });
+  }
 }

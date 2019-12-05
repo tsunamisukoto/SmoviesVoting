@@ -1,0 +1,23 @@
+<mat-card>
+  <mat-card-title>
+    Suggestions
+  </mat-card-title>
+  <app-suggestion-list-item *ngFor="let suggestion of suggestions" [suggestion]="suggestion" (suggestionSelected)="suggestionSelected($event)">
+
+  </app-suggestion-list-item>
+
+  <div>
+    <mat-form-field>
+      <input matInput name="message" placeholder="Enter a suggestion..." [(ngModel)]="formData.suggestion" required
+        (keyup.enter)="onEnter()" />
+    </mat-form-field>
+  </div>
+
+  <div *ngFor="let session of sessions">
+    Session
+  </div>
+  <button mat-button (click)="addSession()">Add Session</button>
+
+  <div *ngFor="let sugg of selectedSuggestions">{{sugg.name}}</div>
+{{selectedSuggestions | json}}
+</mat-card>

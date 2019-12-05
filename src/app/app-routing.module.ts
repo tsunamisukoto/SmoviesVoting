@@ -5,7 +5,11 @@ import { FormsModule } from '@angular/forms';
 import { RegisterComponent } from './sign-in-page/register/register.component';
 import { HomeComponent } from './home/home.component';
 import { RoomComponent } from './room/room.component';
-import { GroupComponent } from './home/group/group.component';
+import { GroupListComponent } from './home/group/group-list.component';
+import { GroupComponent } from './home/group/group/group.component';
+import { MaterialModule } from './core/material/material.module';
+import { RoomModule } from './room/room.module';
+import { ChatWindowComponent } from './room/chat-window/chat-window.component';
 
 
 const routes: Routes = [
@@ -22,23 +26,28 @@ const routes: Routes = [
       component: HomeComponent
    },
    {
-      path: 'room/:id',
+      path: 'room/:roomId',
       component: RoomComponent
+   },
+   {
+      path: 'group/:groupId',
+      component: GroupComponent
    }
 ];
 
 @NgModule({
    imports: [
       RouterModule.forRoot(routes),
-      FormsModule
+      FormsModule,
+      MaterialModule,
+      RoomModule
    ],
    exports: [
       RouterModule
    ],
    declarations: [
       SignInPageComponent,
-      RegisterComponent,
-      RoomComponent
+      RegisterComponent
    ]
 })
 export class AppRoutingModule { }

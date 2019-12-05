@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { of } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
@@ -10,14 +10,23 @@ export class AuthenticationService {
 
   signIn = (request: SignInRequest): Promise<string> => {
     // return of(null).toPromise();
-    return this.http.post<string>('api/auth/login', request, { responseType: 'text' })
-      .toPromise().then(this.setSession);
+    return this.http.post<{token: string}>('api/auth/login', request)
+      .pipe(map(token => this.setSession(token.token)))
+      .toPromise();
   }
-  private setSession(authResult) {
+
+  register = (request: RegisterRequest): Promise<string> => {
+    // return of(null).toPromise();
+    return this.http.post<{token: string}>('api/auth/register', request)
+      .pipe(map(token => this.setSession(token.token)))
+      .toPromise();
+  }
+  private setSession = (authResult: string): string => {
     // const expiresAt = moment().add(authResult.expiresIn, 'second');
 
-    localStorage.setItem('id_token', authResult.idToken);
+    localStorage.setItem('id_token', authResult);
     // localStorage.setItem("expires_at", JSON.stringify(expiresAt.valueOf()));
+    return authResult;
   }
 
   logout() {
@@ -34,6 +43,10 @@ export class AuthenticationService {
     return !this.isLoggedIn();
   }
 
+  authToken(): string {
+    return localStorage.getItem('id_token') as string;
+  }
+
   // getExpiration() {
   //   const expiration = localStorage.getItem("expires_at");
   //   const expiresAt = JSON.parse(expiration);
@@ -46,6 +59,12 @@ export class SignInRequest {
   password: string;
 }
 
+export class RegisterRequest {
+  username: string;
+  password: string;
+  confirmPassword: string;
+  role: string;
+}
 export class SignInResponse {
 
 }

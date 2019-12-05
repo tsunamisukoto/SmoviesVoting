@@ -1,3 +1,25 @@
-<p>
-  register works!
-</p>
+<div class="sign-in">
+  <mat-card>
+        <mat-card-title>
+            Register
+        </mat-card-title>
+    <form>
+
+      <mat-form-field>
+        <input matInput name="username" placeholder="Username" [(ngModel)]="formData.username" />
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput name="password" placeholder="Passowrd" type="password" [(ngModel)]="formData.password" />
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput name="confirmPassword" placeholder="Confirm Password" type="password"
+          [(ngModel)]="formData.confirmPassword" />
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput name="role" placeholder="Role" [(ngModel)]="formData.role" />
+      </mat-form-field>
+      <button type="submit" (click)="register()" mat-raised-button>Register</button>
+      <button routerLink="/" mat-raised-button>Cancel</button>
+    </form>
+  </mat-card>
+</div>

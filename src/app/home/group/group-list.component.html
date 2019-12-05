@@ -1,0 +1,18 @@
+<mat-card>
+  <mat-card-title>
+    Groups
+  </mat-card-title>
+  <mat-progress-spinner *ngIf="loading"></mat-progress-spinner>
+  <mat-list>
+    <mat-list-item *ngFor="let group of groups">
+
+      <app-group-list-item [group]="group">
+      </app-group-list-item>
+    </mat-list-item>
+    <mat-list-item (click)="openEditModal(null)">
+      ++++++++
+      Add
+      ++++++++
+    </mat-list-item>
+  </mat-list>
+</mat-card>

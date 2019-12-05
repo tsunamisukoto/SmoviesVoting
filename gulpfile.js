@@ -16,7 +16,16 @@ gulp.task('node-server-start', function (cb) {
 });
 
 gulp.task('ng-serve', function (cb) {
-  exec('ng serve --open --proxy-config=proxy.conf.json', (error, stdout, stderr) => {
+  exec('ng serve --open --proxy-config=proxy.conf.json --ssl', (error, stdout, stderr) => {
+    console.log(stdout);
+    console.log(stderr);
+    console.log(error);
+    cb();
+  });
+});
+
+gulp.task('ng-serve-prod', function (cb) {
+  exec('ng serve --ssl=true --ssl-cert="/etc/letsencrypt/live/smovies.tsunamisukoto.com/fullchain.pem" --ssl-key="/etc/letsencrypt/live/smovies.tsunamisukoto.com/privkey.pem" --port=5052', (error, stdout, stderr) => {
     console.log(stdout);
     console.log(stderr);
     console.log(error);
@@ -25,3 +34,4 @@ gulp.task('ng-serve', function (cb) {
 });
 
 gulp.task('start', gulp.parallel('node-server-start', 'ng-serve'));
+gulp.task('start-prod', gulp.parallel('node-server-start', 'ng-serve-prod'));

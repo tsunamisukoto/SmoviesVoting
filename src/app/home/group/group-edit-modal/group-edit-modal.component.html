@@ -1,0 +1,11 @@
+<form>
+  <mat-form-field>
+    <input matInput name="name" placeholder="Name" [(ngModel)]="formData.name" required />
+  </mat-form-field>
+  <mat-form-field>
+    <textarea matInput name="description" placeholder="Description" [(ngModel)]="formData.description" required></textarea>
+  </mat-form-field>
+
+  <button type="submit" (click)="save()" mat-raised-button>Save</button>
+  <button (click)="close()" mat-raised-button>Cancel</button>
+</form>

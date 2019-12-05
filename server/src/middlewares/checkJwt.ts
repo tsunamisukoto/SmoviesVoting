@@ -12,6 +12,7 @@ export const checkJwt = (req: Request, res: Response, next: NextFunction) => {
     jwtPayload = <any>jwt.verify(token, config.jwtSecret);
     res.locals.jwtPayload = jwtPayload;
   } catch (error) {
+    console.log('Failed Auth');
     //If token is not valid, respond with 401 (unauthorized)
     res.status(401).send();
     return;

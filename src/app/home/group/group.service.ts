@@ -9,25 +9,18 @@ export class GroupService {
 
   constructor(readonly http: HttpClient) { }
 
-  GetGroups(all: boolean): Observable<Array<GroupListModel>> {
-    return of([
-      { name: 'Test1' },
-      { name: 'Test2' },
-      { name: 'Test3' },
-      { name: 'Test4' },
-      { name: 'Test5' },
-      { name: 'Test6' },
-      { name: 'Test7' }
-    ]);
+  getGroups = (all: boolean): Promise<GroupListModel[]> => {
+    return this.http.get<GroupListModel[]>('api/group', { params: { all: all.toString() } })
+      .toPromise();
+  };
 
-    return this.http.get<Array<GroupListModel>>('/api/groups', {
-      params: {
-        all: all.toString()
-      }
-    });
+  addGroup = (newGroup): Promise<any> => {
+    return this.http.post('api/group', newGroup)
+      .toPromise();
   }
 }
 
 export class GroupListModel {
+  public id: number;
   public name: string;
 }

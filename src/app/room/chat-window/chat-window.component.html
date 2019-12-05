@@ -1,3 +1,24 @@
-<p>
-  chat-window works!
-</p>
+<mat-card>
+  <mat-card-title>
+    Chat
+  </mat-card-title>
+  <div style="height: 500px; overflow: auto; overflow-x:hidden;">
+    <mat-list>
+      <mat-list-item *ngFor="let message of messages">
+
+        <div >
+          <em>{{message.user.username}}:</em>
+          {{message.message}}
+        </div>
+      </mat-list-item>
+    </mat-list>
+  </div>
+  <div>
+    <mat-form-field>
+      <input matInput name="message" placeholder="Type a Message..." [(ngModel)]="formData.message" required
+        (keyup.enter)="onEnter()" />
+    </mat-form-field>
+  </div>
+  <mat-card-footer>
+  </mat-card-footer>
+</mat-card>

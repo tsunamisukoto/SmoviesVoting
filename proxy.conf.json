@@ -6,18 +6,5 @@
     "pathRewrite": {
       "^/api": ""
     }
-  },
-  "/socket.io": {
-    "target": "http://localhost:5052/",
-    "logLevel": "debug",
-    "secure": false
-  },
-  "/oldSite": {
-    "target": "http://localhost:5052",
-    "logLevel": "debug",
-    "secure": false,
-    "pathRewrite": {
-      "^/api": ""
-    }
   }
 }

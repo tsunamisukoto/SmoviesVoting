@@ -1,4 +1,22 @@
-<p>
-  room works!
-</p>
-{{id}}
+<div class="row">
+  <div class="col-md-12" *ngIf="room">
+
+    <mat-card>
+      <mat-card-title>
+        {{room.name}}
+      </mat-card-title>
+      {{room.description}}
+
+    </mat-card>
+  </div>
+  <div class="col-md-4">
+
+
+    <app-chat-window [roomId]="roomId"></app-chat-window>
+    <app-chat-window [roomId]="roomId"></app-chat-window>
+  </div>
+  <div class="col-md-8">
+      <app-suggestion-list [roomId]="roomId"></app-suggestion-list>
+
+  </div>
+</div>

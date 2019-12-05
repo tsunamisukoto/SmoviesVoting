@@ -9,22 +9,20 @@ export class RoomService {
 
   constructor(readonly http: HttpClient) { }
 
-  GetRooms(groupId: number): Observable<Array<RoomListModel>> {
-    return of([
-      { id: 1, name: 'Test1' },
-      { id: 2, name: 'Test2' },
-      { id: 3, name: 'Test3' },
-      { id: 4, name: 'Test4' },
-      { id: 5, name: 'Test5' },
-      { id: 6, name: 'Test6' },
-      { id: 7, name: 'Test7' }
-    ]);
-
-    return this.http.get<Array<RoomListModel>>('/api/groups', {
+  getRooms(groupId: number): Promise<Array<RoomListModel>> {
+    return this.http.get<Array<RoomListModel>>('/api/room', {
       params: {
         groupId: groupId.toString()
       }
-    });
+    }).toPromise();
+  }
+  getRoom(roomId: number): Promise<DetailedRooomModel> {
+    return this.http.get<DetailedRooomModel>(`/api/room/${roomId}`).toPromise();
+  }
+
+  addRoom = (groupId, newRoom): Promise<any> => {
+    return this.http.post(`api/room/${groupId}`, newRoom)
+      .toPromise();
   }
 }
 
@@ -32,4 +30,11 @@ export class RoomService {
 export class RoomListModel {
   public id: number;
   public name: string;
+}
+
+export class DetailedRooomModel
+{
+  public id: number;
+  public name: string;
+  public description: string;
 }
