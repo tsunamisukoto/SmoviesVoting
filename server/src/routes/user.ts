@@ -7,6 +7,10 @@ const router = Router();
 
 //Get all users
 router.get("/", [checkJwt, checkRole(["ADMIN"])], UserController.listAll);
+router.get("/test", (req, res) =>{
+    res.send("test");
+
+});
 
 // Get one user
 router.get(

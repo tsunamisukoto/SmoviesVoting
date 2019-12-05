@@ -1,6 +1,6 @@
 {
-   "type": "sqlite",
-   "database": "database.sqlite",
+   "type": "mysql",
+   "database": "database-mysql",
    "synchronize": true,
    "logging": false,
    "entities": [
@@ -16,5 +16,7 @@
       "entitiesDir": "src/entity",
       "migrationsDir": "src/migration",
       "subscribersDir": "src/subscriber"
-   }
+   },
+   "username": "root",
+   "password": "password"
 }
