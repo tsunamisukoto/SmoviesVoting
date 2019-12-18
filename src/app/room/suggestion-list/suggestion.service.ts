@@ -25,15 +25,17 @@ export class SuggestionService {
       .toPromise();
   }
   addSession = (roomId: number): Promise<SessionModel> => {
-    return this.http.post<SessionModel[]>('api/voteSession', { roomId })
+    return this.http.post<SessionModel>('api/voteSession', { roomId })
       .toPromise();
   }
 }
 
 export class SuggestionModel {
-
+  id: number;
+  suggestion: string;
 }
 
 export class SessionModel {
-
+  id: number;
+  name: string;
 }

@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import { SuggestionService, SuggestionModel, SessionModel } from './suggestion.service';
+import { VoteService } from './vote.service';
 
 @Component({
   selector: 'app-suggestion-list',
@@ -9,10 +10,11 @@ import { SuggestionService, SuggestionModel, SessionModel } from './suggestion.s
 export class SuggestionListComponent implements OnInit {
 
 
-  constructor(readonly service: SuggestionService, readonly cdr: ChangeDetectorRef) { }
+  constructor(readonly service: SuggestionService, readonly cdr: ChangeDetectorRef, readonly voteService: VoteService) { }
   suggestions: Array<SuggestionModel>;
   sessions: Array<SessionModel>;
-  selectedSuggestions: Array<SessionModel> = [];
+  selectedSuggestions: Array<SuggestionModel> = [];
+  selectedSession: SessionModel;
   formData;
   @Input() roomId: number;
   ngOnInit(): void {
@@ -31,6 +33,9 @@ export class SuggestionListComponent implements OnInit {
     this.cdr.markForCheck();
   };
 
+  sendVotes = () => {
+    this.voteService.sendVotes(this.selectedSession.id, this.selectedSuggestions.map(s => s.id));
+  };
   loadSessions(): void {
     this.service.getSessions(this.roomId).then(sessions => {
       this.sessions = sessions;

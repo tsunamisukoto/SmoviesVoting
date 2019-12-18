@@ -10,7 +10,7 @@ export class GroupEditModalComponent {
   formData: any = {};
   constructor(
     public dialogRef: MatDialogRef<GroupEditModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any, 
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private readonly groupService: GroupService) {}
 
     save(): void {

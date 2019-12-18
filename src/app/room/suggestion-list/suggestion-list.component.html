@@ -2,8 +2,8 @@
   <mat-card-title>
     Suggestions
   </mat-card-title>
-  <app-suggestion-list-item *ngFor="let suggestion of suggestions" [suggestion]="suggestion" (suggestionSelected)="suggestionSelected($event)">
-
+  <app-suggestion-list-item *ngFor="let suggestion of suggestions" [suggestion]="suggestion"
+    (suggestionSelected)="suggestionSelected($event)">
   </app-suggestion-list-item>
 
   <div>
@@ -12,12 +12,22 @@
         (keyup.enter)="onEnter()" />
     </mat-form-field>
   </div>
+  <div>
 
-  <div *ngFor="let session of sessions">
-    Session
+    <div *ngFor="let session of sessions" (click)="selectedSession = session">
+      <span *ngIf="selectedSession == session">*</span>
+
+      Session
+    </div>
+    <button mat-button (click)="addSession()">Add Session</button>
   </div>
-  <button mat-button (click)="addSession()">Add Session</button>
+  <div>
 
-  <div *ngFor="let sugg of selectedSuggestions">{{sugg.name}}</div>
-{{selectedSuggestions | json}}
+    <div *ngFor="let sugg of selectedSuggestions">
+      {{sugg.suggestion}}
+    </div>
+    <button mat-button (click)="sendVotes()">
+      Send Votes
+    </button>
+  </div>
 </mat-card>

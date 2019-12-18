@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, Input, EventEmitter } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { SuggestionModel } from '../suggestion.service';
 
 @Component({
@@ -8,7 +8,7 @@ import { SuggestionModel } from '../suggestion.service';
 })
 export class SuggeestionListItemComponent implements OnInit {
   @Input() suggestion: SuggestionModel;
-  suggestionSelected = new EventEmitter<SuggestionModel>();
+  @Output() suggestionSelected = new EventEmitter<SuggestionModel>();
   constructor() { }
 
   ngOnInit(): void {
