@@ -22,10 +22,6 @@ import { User } from './User';
 
     @Column()
     suggestionId: number;
-
-    @Column()
-    @Length(1, 200)
-    message: string;
   
     @Column()
     @CreateDateColumn()

@@ -20,53 +20,48 @@ export class AuthController {
 
     // Get user from database
     const userRepository = getRepository(User);
-    let user: User;
-    try {
-      user = await userRepository.findOneOrFail({ where: { username } });
-    } catch (error) {
-      res.status(401).send();
-    }
+    userRepository
+      .findOneOrFail({ where: { username } })
+      .catch(() => res.status(401).send())
+      .then((user: User) => {
+        // Check if encrypted password match
+        if (!user.checkIfUnencryptedPasswordIsValid(password)) {
+          res.status(401).send();
+          return;
+        }
+        const payload = { userId: user.id, username: user.username };
+        const expiry = { expiresIn: '1h' };
+        // Sign JWT, valid for 1 hour
+        const token = jwt.sign(payload, config.jwtSecret, expiry);
 
-    // Check if encrypted password match
-    if (!user.checkIfUnencryptedPasswordIsValid(password)) {
-      res.status(401).send();
-      return;
-    }
-
-    // Sing JWT, valid for 1 hour
-    const token = jwt.sign(
-      { userId: user.id, username: user.username },
-      config.jwtSecret,
-      { expiresIn: '1h' }
-    );
-
-    // Send the jwt in the response
-    res.send({ token });
+        // Send the jwt in the response
+        res.send({ token });
+      });
   }
 
   static register = async (req: Request, res: Response) => {
     const userRepository = getRepository(User);
     const { username, password, role } = req.body;
-
-    let user: User;
-
-    user = await userRepository.findOne({ where: { username } });
-    if (user != null) {
-      res.status(400).send('user used');
-    }
-
-    user = new User();
-    user.username = username;
-    user.password = password;
-    user.role = role;
-    user.hashPassword();
-    const errors = await validate(user);
-    if (errors.length > 0) {
-      res.status(400).send(errors);
-      return;
-    }
-    userRepository.save(user);
-    res.status(204).send();
+    
+    userRepository.findOne({ where: { username } }).then((user: User) => {
+      if (user != null) {
+        res.status(400).send('user used');
+        return;
+      }
+      user = new User();
+      user.username = username;
+      user.password = password;
+      user.role = role;
+      user.hashPassword();
+      validate(user).then(errors => {
+        if (errors.length > 0) {
+          res.status(400).send(errors);
+          return;
+        }
+        userRepository.save(user);
+        res.status(204).send();
+      });
+    });
   }
 
   static changePassword = async (req: Request, res: Response) => {

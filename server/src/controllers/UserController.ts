@@ -9,27 +9,9 @@ export class UserController {
     static listAll = async (req: Request, res: Response) => {
         //Get users from database
         const userRepository = getRepository(User);
-        const users = await userRepository.find({
+        userRepository.find({
             select: ["id", "username", "role"] //We dont want to send the passwords on response
-        });
-
-        //Send the users object
-        res.send(users);
-    };
-
-    static getOneById = async (req: Request, res: Response) => {
-        //Get the ID from the url
-        const id: number = req.params.id as any;
-
-        //Get the user from database
-        const userRepository = getRepository(User);
-        try {
-            const user = await userRepository.findOneOrFail(id, {
-                select: ["id", "username", "role"] //We dont want to send the password on response
-            });
-        } catch (error) {
-            res.status(404).send("User not found");
-        }
+        }).then(users => res.send(users));
     };
 
     static newUser = async (req: Request, res: Response) => {
