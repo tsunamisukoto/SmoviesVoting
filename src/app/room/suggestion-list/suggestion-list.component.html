@@ -13,12 +13,14 @@
     </mat-form-field>
   </div>
   <div>
-
-    <div *ngFor="let session of sessions" (click)="selectedSession = session">
-      <span *ngIf="selectedSession == session">*</span>
-
-      Session
-    </div>
+    <ol>
+      <li *ngFor="let session of sessions;" (click)="selectedSession = session">
+        <span *ngIf="selectedSession == session">*</span>
+  
+        Session
+      </li>
+    </ol>
+    
     <button mat-button (click)="addSession()">Add Session</button>
   </div>
   <div>
@@ -26,7 +28,7 @@
     <div *ngFor="let sugg of selectedSuggestions">
       {{sugg.suggestion}}
     </div>
-    <button mat-button (click)="sendVotes()">
+    <button mat-button (click)="sendVotes()" [disabled]="!selectedSession">
       Send Votes
     </button>
   </div>
