@@ -9,7 +9,8 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatDialogModule } from '@angular/material/dialog';
-import {MatGridListModule} from '@angular/material/grid-list';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatChipsModule } from '@angular/material/chips';
 const modules = [
   MatButtonModule,
   MatFormFieldModule,
@@ -21,7 +22,8 @@ const modules = [
   MatListModule,
   MatToolbarModule,
   MatGridListModule,
-  MatDialogModule
+  MatDialogModule,
+  MatChipsModule
 ];
 
 @NgModule({

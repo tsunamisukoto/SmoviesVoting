@@ -2,10 +2,14 @@
   <mat-card-title>
     Suggestions
   </mat-card-title>
-  <app-suggestion-list-item *ngFor="let suggestion of suggestions" [suggestion]="suggestion"
-    (suggestionSelected)="suggestionSelected($event)">
-  </app-suggestion-list-item>
+  <mat-action-list>
+    <mat-list-item *ngFor="let suggestion of suggestions">
 
+      <app-suggestion-list-item  [suggestion]="suggestion"
+        (suggestionSelected)="suggestionSelected($event)">
+      </app-suggestion-list-item>
+    </mat-list-item>
+  </mat-action-list>
   <div>
     <mat-form-field>
       <input matInput name="message" placeholder="Enter a suggestion..." [(ngModel)]="formData.suggestion" required
@@ -13,21 +17,23 @@
     </mat-form-field>
   </div>
   <div>
-    <ol>
-      <li *ngFor="let session of sessions;" (click)="selectedSession = session">
+    <mat-action-list>
+      <mat-list-item *ngFor="let session of sessions;" (click)="selectedSession = session">
         <span *ngIf="selectedSession == session">*</span>
-  
+
         Session
-      </li>
-    </ol>
-    
+      </mat-list-item>
+    </mat-action-list>
+
     <button mat-button (click)="addSession()">Add Session</button>
   </div>
   <div>
-
-    <div *ngFor="let sugg of selectedSuggestions">
-      {{sugg.suggestion}}
-    </div>
+    Selected Movies
+    <mat-chip-list>
+      <mat-chip color="primary" *ngFor="let sugg of selectedSuggestions">
+        {{sugg.suggestion}}
+      </mat-chip>
+    </mat-chip-list>
     <button mat-button (click)="sendVotes()" [disabled]="!selectedSession">
       Send Votes
     </button>

@@ -34,7 +34,10 @@ export class SuggestionListComponent implements OnInit {
   };
 
   sendVotes = () => {
-    this.voteService.sendVotes(this.selectedSession.id, this.selectedSuggestions.map(s => s.id));
+    this.voteService.sendVotes(this.selectedSession.id, this.selectedSuggestions.map(s => s.id)).then(() => {
+      this.selectedSuggestions = [];
+      this.cdr.markForCheck();
+    });
   };
   loadSessions(): void {
     this.service.getSessions(this.roomId).then(sessions => {
@@ -44,10 +47,14 @@ export class SuggestionListComponent implements OnInit {
   }
 
   onEnter(): void {
-    this.service.sendSuggestions(this.roomId, this.formData.suggestion).then(() => this.loadMessages());
+    this.service.sendSuggestions(this.roomId, this.formData.suggestion).then(() => {
+      this.loadMessages();
+    });
   }
   addSession(): void {
-    this.service.addSession(this.roomId);
+    this.service.addSession(this.roomId).then(() => {
+      this.cdr.markForCheck();
+    });
   }
 
 

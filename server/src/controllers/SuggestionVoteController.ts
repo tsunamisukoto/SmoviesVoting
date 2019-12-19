@@ -8,9 +8,10 @@ import { getAuthToken } from '../common/authToken';
 export class SuggestionVoteController {
     static newSuggestionVote = async (req: Request, res: Response) => {
         const userId = getAuthToken(req).userId;
-        const { suggestionIds, voteSessionId } = req.body as { suggestionIds: number[], voteSessionId: number };
+        let { suggestionIds, voteSessionId } = req.body as { suggestionIds: number[], voteSessionId: number };
         const suggestionVoteRepository = getRepository(SuggestionVote);
 
+        suggestionIds = Array.from(new Set(suggestionIds));
         const sessionQuery = suggestionVoteRepository.createQueryBuilder('vote')
             .where('vote.voteSessionId = (:voteSessionId) AND vote.userId = (:userId)', { voteSessionId, userId });
         const removeAllVotesNotNeeded =  suggestionVoteRepository.createQueryBuilder('vote')
@@ -26,7 +27,7 @@ export class SuggestionVoteController {
                 const existingSuggestionIds = existingSuggestions.map(s => s.suggestionId);
                 console.log('existing');
                 console.log(existingSuggestionIds);
-                const newSuggestionIds = suggestionIds.filter(newSugg => existingSuggestionIds.indexOf(newSugg) === -1)
+                const newSuggestionIds = suggestionIds.filter(newSugg => existingSuggestionIds.indexOf(newSugg) === -1);
                 console.log('new');
                 console.log(newSuggestionIds);
                 return newSuggestionIds.map(suggestionId => {
