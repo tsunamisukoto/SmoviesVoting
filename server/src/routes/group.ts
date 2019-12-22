@@ -6,7 +6,7 @@ import { checkRole } from "../middlewares/checkRole";
 const router = Router();
 
 //Get all groups
-router.get("/", [checkJwt, checkRole(["ADMIN"])], GroupController.listAll);
+router.get("/", [checkJwt], GroupController.listAll);
 
 //Create a new group
 router.post("/", [checkJwt, checkRole(["ADMIN"])], GroupController.newGroup);

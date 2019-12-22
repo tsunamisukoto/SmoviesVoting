@@ -1,23 +1,28 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { SocialUser } from 'angularx-social-login';
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
 
   constructor(private readonly http: HttpClient) { }
-
+  signInWithFacebook = (user: SocialUser): Promise<any> => {
+    return this.http.post<{ token: string }>('api/auth/facebookLogin', user)
+      .pipe(map(token => this.setSession(token.token)))
+      .toPromise();
+  }
   signIn = (request: SignInRequest): Promise<string> => {
     // return of(null).toPromise();
-    return this.http.post<{token: string}>('api/auth/login', request)
+    return this.http.post<{ token: string }>('api/auth/login', request)
       .pipe(map(token => this.setSession(token.token)))
       .toPromise();
   }
 
   register = (request: RegisterRequest): Promise<string> => {
     // return of(null).toPromise();
-    return this.http.post<{token: string}>('api/auth/register', request)
+    return this.http.post<{ token: string }>('api/auth/register', request)
       .pipe(map(token => this.setSession(token.token)))
       .toPromise();
   }

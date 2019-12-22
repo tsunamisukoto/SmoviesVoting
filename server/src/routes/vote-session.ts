@@ -6,7 +6,7 @@ import { checkRole } from "../middlewares/checkRole";
 const router = Router();
 
 //Get all suggestions
-router.get("/", [checkJwt, checkRole(["ADMIN"])], VoteSessionController.listAll);
+router.get("/", [checkJwt], VoteSessionController.listAll);
 
 //Create a new suggestion
 router.post("/", [checkJwt, checkRole(["ADMIN"])], VoteSessionController.newVoteSession);

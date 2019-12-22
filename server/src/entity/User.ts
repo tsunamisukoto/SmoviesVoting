@@ -25,12 +25,19 @@ export class User {
   username: string;
 
   @Column()
+  @Length(4, 20)
+  email: string;
+
+  @Column()
   @Length(4, 100)
   password: string;
 
   @Column()
   @IsNotEmpty()
   role: string;
+
+  @Column()
+  photoUrl: string;
 
   @Column()
   @CreateDateColumn()

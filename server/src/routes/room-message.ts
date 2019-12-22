@@ -6,9 +6,9 @@ import { checkRole } from "../middlewares/checkRole";
 const router = Router();
 
 //Get all roomMessages
-router.get("/", [checkJwt, checkRole(["ADMIN"])], RoomMessageController.listAll);
+router.get("/", [checkJwt], RoomMessageController.listAll);
 
 //Create a new roomMessage
-router.post("/", [checkJwt, checkRole(["ADMIN"])], RoomMessageController.newRoomMessage);
+router.post("/", [checkJwt], RoomMessageController.newRoomMessage);
 
 export default router;

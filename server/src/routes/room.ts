@@ -6,7 +6,7 @@ import { checkRole } from "../middlewares/checkRole";
 const router = Router();
 
 //Get all rooms
-router.get("/", [checkJwt, checkRole(["ADMIN"])], RoomController.listAll);
+router.get("/", [checkJwt], RoomController.listAll);
 
 //Create a new room
 router.post("/:groupId([0-9]+)", [checkJwt, checkRole(["ADMIN"])], RoomController.newRoom);

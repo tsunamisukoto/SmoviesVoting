@@ -6,10 +6,10 @@ import { checkRole } from "../middlewares/checkRole";
 const router = Router();
 
 //Get all suggestions
-router.get("/", [checkJwt, checkRole(["ADMIN"])], SuggestionController.listAll);
+router.get("/", [checkJwt], SuggestionController.listAll);
 
 //Create a new suggestion
-router.post("/", [checkJwt, checkRole(["ADMIN"])], SuggestionController.newSuggestion);
+router.post("/", [checkJwt], SuggestionController.newSuggestion);
 
 //Edit one suggestion
 router.patch(

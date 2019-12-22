@@ -7,6 +7,6 @@ const router = Router();
 
 
 //Create a new suggestion
-router.post("/", [checkJwt, checkRole(["ADMIN"])], SuggestionVoteController.newSuggestionVote);
+router.post("/", [checkJwt], SuggestionVoteController.newSuggestionVote);
 
 export default router;

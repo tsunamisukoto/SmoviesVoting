@@ -31,6 +31,41 @@ export class SignInPageComponent implements OnInit {
     });
   }
   signInWithFB(): void {
-    this.externalAuth.signIn(FacebookLoginProvider.PROVIDER_ID).then(user => console.log(user));
-  } 
+    this.authService.signInWithFacebook({
+      "id": "10157095968229565",
+      "name": "Scott Becker",
+      "email": "tsunamisukoto@hotmail.com",
+      "photoUrl": "https://graph.facebook.com/10157095968229565/picture?type=normal",
+      "firstName": "Scott",
+      "lastName": "Becker",
+      "authToken": "EAAGdH8hpe8ABADVEAyLOoiU6PiepTIuVBCyUzMMOmUUm5YhmaS7iqn4EiUbcE7CkQGU8Aw2ZAIG71RZCQwBjTAemSZBM3gcu4A7ogFdkHo9elEgBPtt4eNjggKBexl2uW2pxW7rlwuOEGFZAywuHvk1NCZC6WzHwrKd57HcSyaoXKPW0I6ocecFWZAmjluDi2CDhKlZBlxFPAZDZD",
+      "facebook": {
+        "name": "Scott Becker",
+        "email": "tsunamisukoto@hotmail.com",
+        "picture":
+        {
+          "data":
+          {
+            "height": 50,
+            "is_silhouette": false,
+            "url": "https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=10157095968229565&height=50&width=50&ext=1579484711&hash=AeSuSVa6Vniib7KQ",
+            "width": 50
+
+          }
+        },
+        "first_name": "Scott",
+        "last_name": "Becker",
+        "id": "10157095968229565"
+      },
+      "provider": "FACEBOOK"
+    } as any).then((response) =>
+      this.route.navigate(['/home'])
+    );
+    // this.externalAuth.signIn(FacebookLoginProvider.PROVIDER_ID).then(user => {
+    //   console.log(user);
+    //   return user;
+    // }).then(this.authService.signInWithFacebook).then((response) =>
+    //   this.route.navigate(['/home'])
+    // );
+  }
 }
