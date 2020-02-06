@@ -37,5 +37,9 @@
     <button mat-button (click)="sendVotes()" [disabled]="!selectedSession">
       Send Votes
     </button>
+
+    <button mat-button (click)="calculateVotes()" [disabled]="!selectedSession">
+      Calculate Votes
+    </button>
   </div>
 </mat-card>

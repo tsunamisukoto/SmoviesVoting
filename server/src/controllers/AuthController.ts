@@ -10,35 +10,31 @@ import { UserSocialLogin } from '../entity/UserSocialLogin';
 export class AuthController {
   static facebookLogin = async (req: Request, res: Response) => {
     const request = req.body as SocialUser
-    console.log("body");
-    console.log(req.body);
-    console.log(request);
+    
     const socialLoginRpository = getRepository(UserSocialLogin);
-    console.log(request);
     const requestURL = `https://graph.facebook.com/oauth/access_token?client_id={your-app-id}&client_secret={your-app-secret}&grant_type=client_credentials`;
     const checkUser = (request: SocialUser) => new Promise<boolean>((resolve) => resolve(true));
     checkUser(request).then(() => {
-      console.log('facebook validation worked')
+     
       socialLoginRpository.findOne({
         provider: request.provider,
         externalId: request.idToken
       }).then((socialLogin) => {
         if (socialLogin) {
-          console.log("social login record found");
+         
           res.send({ token: AuthController.generateTokenForUser(socialLogin.user) });
         }
         else {
           const userRepository = getRepository(User);
-          console.log("social login record NOT found");
+         
 
           userRepository.findOne({ email: request.email }).then(existingUser => {
             if (existingUser) {
-              console.log("user found with that email not authing");
+             
               res.status(401).send();
             }
             else {
-              console.log("no user found with that email. Creating user");
-             
+                      
               const newUser = new User();
               newUser.username = request.email;
               newUser.email = request.email;
@@ -51,12 +47,11 @@ export class AuthController {
               socialLogin.externalId = request.id;
               socialLogin.authToken = request.authToken;
               // socialLogin.authorizationCode = request.authorizationCode;
-              console.log(request);
+             
               // socialLogin.idToken = request.idToken;
               socialLogin.user = newUser;
               socialLoginRpository.save(socialLogin).then(savedUser => {
-                console.log("authing with id " + savedUser.user);
-                console.log(savedUser.user);
+               
                 userRepository.findOne()
                 res.send({ token: AuthController.generateTokenForUser(savedUser.user) });
               });
@@ -92,7 +87,7 @@ export class AuthController {
   }
   private static generateTokenForUser = (user: User): string => {
     const payload = { userId: user.id, username: user.username };
-    console.log(payload);
+    
     const expiry = { expiresIn: '1h' };
     // Sign JWT, valid for 1 hour
     const token = jwt.sign(payload, config.jwtSecret, expiry);

@@ -62,7 +62,6 @@ export class SignInPageComponent implements OnInit {
       this.route.navigate(['/home'])
     );
     // this.externalAuth.signIn(FacebookLoginProvider.PROVIDER_ID).then(user => {
-    //   console.log(user);
     //   return user;
     // }).then(this.authService.signInWithFacebook).then((response) =>
     //   this.route.navigate(['/home'])

@@ -4,6 +4,8 @@ import { validate } from "class-validator";
 
 import { VoteSession } from "../entity/VoteSession";
 import { getAuthToken } from "../common/authToken";
+import { SuggestionVote } from "../entity/SuggestionVote";
+import { groupBy } from "rxjs/internal/operators/groupBy";
 
 export class VoteSessionController {
 
@@ -100,5 +102,26 @@ export class VoteSessionController {
 
         //After all send a 204 (no content, but accepted) response
         res.status(204).send();
+    };
+
+
+    static calculate = async (req: Request, res: Response) => {
+        //Get voteSessions from database
+        const { voteSessionId } = req.body;
+
+        const voteSessionRepository = getRepository(SuggestionVote);
+        const voteSessions = await voteSessionRepository.find({
+            where: { voteSessionId }
+        });
+        const ret = voteSessions.reduce((previousVal, vote) => {
+            if (!previousVal[vote.suggestionId]) {
+                previousVal[vote.suggestionId] = 0;
+            }
+            previousVal[vote.suggestionId]++;
+            return previousVal;
+        }, {});
+        
+        //Send the voteSessions object
+        res.send(ret);
     };
 }

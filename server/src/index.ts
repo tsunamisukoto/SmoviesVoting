@@ -5,6 +5,7 @@ import * as bodyParser from "body-parser";
 import * as helmet from "helmet";
 import * as cors from "cors";
 import * as https from "https";
+import * as http from "http";
 import * as fs from "fs";
 import routes from "./routes/index";
 
@@ -17,22 +18,40 @@ createConnection()
     const port = 3000;
     // Call midlewares
     app.use(cors());
+    app.disable('etag');
     app.use(helmet());
     app.use(bodyParser.json());
-
+    app.use(function (request, response, next) {
+      response.header("Access-Control-Allow-Origin", "*");
+      response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+      next();
+    });
     //Set all routes from routes folder
     app.use("/", routes);
     if (useHttps) {
-      https.createServer({
+      var server = https.createServer({
         key: fs.readFileSync('/etc/letsencrypt/live/smovies.tsunamisukoto.com/privkey.pem'),
         cert: fs.readFileSync('/etc/letsencrypt/live/smovies.tsunamisukoto.com/fullchain.pem')
       }, app)
         .listen(3000);
+
     }
     else {
-      app.listen(port, () => {
+      var s = http.createServer(app);
+
+      s.listen(port, () => {
         console.log(`Server started on port ${port}!`);
+
       });
+
+      var io = require('socket.io').listen(s);
+      io.on("connection", socket => {
+        
+        io.emit("documents", ['safasffsa', 'fgdhh', '3214423342']);
+      });
+      setInterval(() => io.emit('reload'), 10000);
     }
+
+
   })
   .catch(error => console.log(error));

@@ -11,6 +11,9 @@ router.get("/", [checkJwt], VoteSessionController.listAll);
 //Create a new suggestion
 router.post("/", [checkJwt, checkRole(["ADMIN"])], VoteSessionController.newVoteSession);
 
+//Calculate suggestions for a session
+router.post("/calculate", [checkJwt, checkRole(["ADMIN"])], VoteSessionController.calculate);
+
 //Edit one suggestion
 router.patch(
     "/:id([0-9]+)",

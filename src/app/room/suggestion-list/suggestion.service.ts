@@ -28,6 +28,12 @@ export class SuggestionService {
     return this.http.post<SessionModel>('api/voteSession', { roomId })
       .toPromise();
   }
+
+  calculateVotes = (voteSessionId: number): Promise<any> => {
+    return this.http.post<any>('api/voteSession/calculate', {
+      voteSessionId
+    }).toPromise();
+  }
 }
 
 export class SuggestionModel {

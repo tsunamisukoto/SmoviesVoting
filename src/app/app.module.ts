@@ -13,7 +13,7 @@ import { SocialLoginModule, AuthServiceConfig } from "angularx-social-login";
 import { GoogleLoginProvider, FacebookLoginProvider } from "angularx-social-login";
 
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
-// const socketConfig: SocketIoConfig = { url: 'http://localhost:4444', options: {} };
+ const socketConfig: SocketIoConfig = { url: 'localhost:3000', options: {} };
 let authConfig = new AuthServiceConfig([
   {
     id: FacebookLoginProvider.PROVIDER_ID,
@@ -39,7 +39,7 @@ export function provideConfig() {
     BrowserAnimationsModule,
     RoomModule,
     SocialLoginModule,
-    // SocketIoModule.forRoot(socketConfig)
+    SocketIoModule.forRoot(socketConfig)
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
