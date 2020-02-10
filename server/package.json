@@ -11,6 +11,7 @@
       "typescript": "3.3.3333"
    },
    "dependencies": {
+      "@types/socket.io": "^2.1.4",
       "angularx-social-login": "^2.2.1",
       "bcryptjs": "^2.4.3",
       "body-parser": "^1.18.1",
