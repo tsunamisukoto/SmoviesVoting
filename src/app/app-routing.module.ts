@@ -10,6 +10,7 @@ import { GroupComponent } from './home/group/group/group.component';
 import { MaterialModule } from './core/material/material.module';
 import { RoomModule } from './room/room.module';
 import { ChatWindowComponent } from './room/chat-window/chat-window.component';
+import { AuthGuard } from './core/auth-guard';
 
 
 const routes: Routes = [
@@ -23,15 +24,18 @@ const routes: Routes = [
    },
    {
       path: 'home',
-      component: HomeComponent
+      component: HomeComponent,
+      canActivate: [AuthGuard]
    },
    {
       path: 'room/:roomId',
-      component: RoomComponent
+      component: RoomComponent,
+      canActivate: [AuthGuard]
    },
    {
       path: 'group/:groupId',
-      component: GroupComponent
+      component: GroupComponent,
+      canActivate: [AuthGuard]
    }
 ];
 

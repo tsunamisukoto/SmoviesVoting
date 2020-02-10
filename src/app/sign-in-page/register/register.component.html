@@ -18,6 +18,9 @@
       <mat-form-field>
         <input matInput name="role" placeholder="Role" [(ngModel)]="formData.role" />
       </mat-form-field>
+      <mat-form-field>
+        <input matInput name="email" placeholder="Email" [(ngModel)]="formData.email" />
+      </mat-form-field>
       <button type="submit" (click)="register()" mat-raised-button>Register</button>
       <button routerLink="/" mat-raised-button>Cancel</button>
     </form>

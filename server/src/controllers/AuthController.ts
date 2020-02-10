@@ -95,7 +95,7 @@ export class AuthController {
   }
   static register = async (req: Request, res: Response) => {
     const userRepository = getRepository(User);
-    const { username, password, role } = req.body;
+    const { username, password, role, email } = req.body;
 
     userRepository.findOne({ where: { username } }).then((user: User) => {
       if (user != null) {
@@ -105,6 +105,7 @@ export class AuthController {
       user = new User();
       user.username = username;
       user.password = password;
+      user.email = email;
       user.role = role;
       user.hashPassword();
       validate(user).then(errors => {

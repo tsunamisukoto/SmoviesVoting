@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { AuthenticationService, SignInRequest } from './authentication.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService, FacebookLoginProvider } from 'angularx-social-login';
 
 @Component({
@@ -11,13 +11,20 @@ import { AuthService, FacebookLoginProvider } from 'angularx-social-login';
 export class SignInPageComponent implements OnInit {
   public error: any;
   public formData: SignInRequest;
-  constructor(readonly authService: AuthenticationService, readonly route: Router, private externalAuth: AuthService) { }
+  returnUrl: string;
+  constructor(readonly authService: AuthenticationService,
+    readonly route: ActivatedRoute,
+    readonly router: Router,
+    private externalAuth: AuthService) {
+
+  }
 
   ngOnInit(): void {
     this.formData = {
       username: '',
       password: ''
     };
+    this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/home';
   }
 
   signIn = () => {
@@ -25,7 +32,7 @@ export class SignInPageComponent implements OnInit {
       return;
     }
     this.authService.signIn(this.formData).then(response => {
-      this.route.navigate(['/home']);
+      this.router.navigate([this.returnUrl]);
     }).catch(error => {
       this.error = error;
     });
@@ -59,7 +66,7 @@ export class SignInPageComponent implements OnInit {
       },
       "provider": "FACEBOOK"
     } as any).then((response) =>
-      this.route.navigate(['/home'])
+      this.router.navigate([this.returnUrl])
     );
     // this.externalAuth.signIn(FacebookLoginProvider.PROVIDER_ID).then(user => {
     //   return user;

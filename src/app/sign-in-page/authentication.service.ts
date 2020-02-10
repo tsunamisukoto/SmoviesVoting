@@ -23,8 +23,7 @@ export class AuthenticationService {
   register = (request: RegisterRequest): Promise<string> => {
     // return of(null).toPromise();
     return this.http.post<{ token: string }>('api/auth/register', request)
-      .pipe(map(token => this.setSession(token.token)))
-      .toPromise();
+      .toPromise().then(response => this.setSession(response.token));
   }
   private setSession = (authResult: string): string => {
     // const expiresAt = moment().add(authResult.expiresIn, 'second');
@@ -35,13 +34,13 @@ export class AuthenticationService {
   }
 
   logout() {
-    localStorage.removeItem("id_token");
-    localStorage.removeItem("expires_at");
+    localStorage.removeItem('id_token');
+    localStorage.removeItem('expires_at');
   }
 
   public isLoggedIn() {
     // return moment().isBefore(this.getExpiration());
-    return true;
+    return localStorage.getItem('id_token');
   }
 
   isLoggedOut() {
@@ -67,6 +66,7 @@ export class SignInRequest {
 export class RegisterRequest {
   username: string;
   password: string;
+  email: string;
   confirmPassword: string;
   role: string;
 }

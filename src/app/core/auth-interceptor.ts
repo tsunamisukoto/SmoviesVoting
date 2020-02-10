@@ -10,10 +10,9 @@ export class AuthInterceptor implements HttpInterceptor {
 
     }
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        if(this.authService.authToken())
-        {
+        if (this.authService.authToken()) {
             req = req.clone({
-                setHeaders: { 
+                setHeaders: {
                     auth: this.authService.authToken()
                 }
             });
