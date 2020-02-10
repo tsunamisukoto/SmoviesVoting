@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit, ChangeDetectorRef, Input } from '@angular/core';
 import { RoomChatMessageModel, RoomMessageService } from './room-message.service';
+import { Socket } from 'ngx-socket-io';
 
 @Component({
   selector: 'app-chat-window',
@@ -8,11 +9,12 @@ import { RoomChatMessageModel, RoomMessageService } from './room-message.service
 })
 export class ChatWindowComponent implements OnInit {
 
-  constructor(readonly service: RoomMessageService, readonly cdr: ChangeDetectorRef) { }
+  constructor(readonly service: RoomMessageService, readonly cdr: ChangeDetectorRef, readonly socket: Socket) { }
   messages: Array<RoomChatMessageModel>;
   formData;
   @Input() roomId: number;
   ngOnInit(): void {
+    this.socket.on('reload', () => { this.loadMessages() });
     this.loadMessages();
   }
   loadMessages(): void {

@@ -9,7 +9,6 @@ import {
   ManyToMany
 } from 'typeorm';
 import { Length, IsNotEmpty } from 'class-validator';
-import * as bcrypt from 'bcryptjs';
 import { User } from './User';
 import { Room } from './Room';
 

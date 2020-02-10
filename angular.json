@@ -127,5 +127,8 @@
       }
     }
   },
-  "defaultProject": "voting-app"
+  "defaultProject": "voting-app",
+  "cli": {
+    "analytics": "560b1d9c-1e6e-44d3-971a-da57ef9add19"
+  }
 }

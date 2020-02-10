@@ -1,13 +1,15 @@
 import "reflect-metadata";
 import { createConnection } from "typeorm";
 import * as express from "express";
-import * as bodyParser from "body-parser";
+import { json } from "body-parser";
 import * as helmet from "helmet";
 import * as cors from "cors";
 import * as https from "https";
 import * as http from "http";
 import * as fs from "fs";
 import routes from "./routes/index";
+import { listen } from "socket.io";
+import { SocketConnection } from "./common/socketConnection";
 
 //Connects to the Database -> then starts the express
 createConnection()
@@ -20,7 +22,7 @@ createConnection()
     app.use(cors());
     app.disable('etag');
     app.use(helmet());
-    app.use(bodyParser.json());
+    app.use(json());
     app.use(function (request, response, next) {
       response.header("Access-Control-Allow-Origin", "*");
       response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -28,8 +30,9 @@ createConnection()
     });
     //Set all routes from routes folder
     app.use("/", routes);
+    let server: any;
     if (useHttps) {
-      var server = https.createServer({
+      server = https.createServer({
         key: fs.readFileSync('/etc/letsencrypt/live/smovies.tsunamisukoto.com/privkey.pem'),
         cert: fs.readFileSync('/etc/letsencrypt/live/smovies.tsunamisukoto.com/fullchain.pem')
       }, app)
@@ -37,21 +40,14 @@ createConnection()
 
     }
     else {
-      var s = http.createServer(app);
+      server = http.createServer(app);
 
-      s.listen(port, () => {
+      server.listen(port, () => {
         console.log(`Server started on port ${port}!`);
 
       });
-
-      var io = require('socket.io').listen(s);
-      io.on("connection", socket => {
-        
-        io.emit("documents", ['safasffsa', 'fgdhh', '3214423342']);
-      });
-      setInterval(() => io.emit('reload'), 10000);
     }
 
-
+    var io = SocketConnection.listen(server);
   })
   .catch(error => console.log(error));

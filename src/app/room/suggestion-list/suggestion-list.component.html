@@ -5,8 +5,7 @@
   <mat-action-list>
     <mat-list-item *ngFor="let suggestion of suggestions">
 
-      <app-suggestion-list-item  [suggestion]="suggestion"
-        (suggestionSelected)="suggestionSelected($event)">
+      <app-suggestion-list-item [suggestion]="suggestion" (suggestionSelected)="suggestionSelected($event)">
       </app-suggestion-list-item>
     </mat-list-item>
   </mat-action-list>
@@ -33,13 +32,16 @@
       <mat-chip color="primary" *ngFor="let sugg of selectedSuggestions">
         {{sugg.suggestion}}
       </mat-chip>
-    </mat-chip-list>
-    <button mat-button (click)="sendVotes()" [disabled]="!selectedSession">
-      Send Votes
-    </button>
+      <button mat-button (click)="sendVotes()" [disabled]="!selectedSession">
+        Send Votes
+      </button>
 
+    </mat-chip-list>
     <button mat-button (click)="calculateVotes()" [disabled]="!selectedSession">
       Calculate Votes
     </button>
   </div>
 </mat-card>
+
+<tsun-vote-results *ngIf="calculatedVotes" [calculatedVotes]="calculatedVotes"> 
+</tsun-vote-results>

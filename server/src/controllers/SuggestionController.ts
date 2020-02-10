@@ -4,6 +4,7 @@ import { validate } from "class-validator";
 
 import { Suggestion } from "../entity/Suggestion";
 import { getAuthToken } from "../common/authToken";
+import { SocketConnection } from "../common/socketConnection";
 
 export class SuggestionController {
 
@@ -42,7 +43,7 @@ export class SuggestionController {
             res.status(409).send("suggestionname already in use");
             return;
         }
-
+        SocketConnection.emit('reload')
         //If all ok, send 201 response
         res.status(201).send({});
     };

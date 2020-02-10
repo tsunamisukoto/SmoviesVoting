@@ -23,8 +23,8 @@ export class SuggestionListComponent implements OnInit {
     this.socket.on('reload', () => { this.loadMessages() });
     this.loadMessages();
     this.loadSessions();
-
   }
+
   loadMessages(): void {
     this.formData = {};
     this.service.getSuggestions(this.roomId).then(suggestions => {
@@ -32,6 +32,7 @@ export class SuggestionListComponent implements OnInit {
       this.cdr.markForCheck();
     });
   }
+
   suggestionSelected = (suggestion: SuggestionModel) => {
     if (this.selectedSuggestions.indexOf(suggestion) === -1) {
       this.selectedSuggestions.push(suggestion);
@@ -48,9 +49,14 @@ export class SuggestionListComponent implements OnInit {
     });
   };
 
+  calculatedVotes: any;
   calculateVotes = () => {
-    this.service.calculateVotes(this.selectedSession.id).then(val => console.log(val));
+    this.service.calculateVotes(this.selectedSession.id).then(val => {
+      this.calculatedVotes = val;
+      this.cdr.markForCheck();
+    });
   }
+
   loadSessions(): void {
     this.service.getSessions(this.roomId).then(sessions => {
       this.sessions = sessions;

@@ -7,6 +7,7 @@ import { MessageComponent } from './chat-window/message/message.component';
 import { MaterialModule } from '../core/material/material.module';
 import { RoomComponent } from './room.component';
 import { FormsModule } from '@angular/forms';
+import { VoteResultsComponent } from './suggestion-list/vote-results/vote-results.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { FormsModule } from '@angular/forms';
       MessageComponent,
       SuggestionListComponent,
       SuggeestionListItemComponent,
-      RoomComponent
+      RoomComponent,
+      VoteResultsComponent
    ]
 })
 export class RoomModule { }
