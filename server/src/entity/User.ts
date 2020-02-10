@@ -6,16 +6,14 @@ import {
   Unique,
   CreateDateColumn,
   UpdateDateColumn,
-  ManyToMany,
-  OneToMany
-} from "typeorm";
-import { Length, IsNotEmpty } from "class-validator";
-import * as bcrypt from "bcryptjs";
-import { Group } from "./Group";
+  ManyToMany} from 'typeorm';
+import { Length, IsNotEmpty } from 'class-validator';
+import * as bcrypt from 'bcryptjs';
+import { Group } from './Group';
 import { RoomMessage } from './RoomMessage';
 
 @Entity()
-@Unique(["username"])
+@Unique(['username'])
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
@@ -47,6 +45,12 @@ export class User {
   @UpdateDateColumn()
   updatedAt: Date;
 
+  @ManyToMany(() => Group, group => group.users)
+  groups: Group[];
+
+  // @OneToMany(type => RoomMessage, message => message.user)
+  roomMessages: RoomMessage[];
+
   hashPassword() {
     this.password = bcrypt.hashSync(this.password, 8);
   }
@@ -54,10 +58,4 @@ export class User {
   checkIfUnencryptedPasswordIsValid(unencryptedPassword: string) {
     return bcrypt.compareSync(unencryptedPassword, this.password);
   }
-
-  @ManyToMany(type => Group, group => group.users)
-  groups: Group[];
-
-  // @OneToMany(type => RoomMessage, message => message.user)
-  roomMessages: RoomMessage[];
 }

@@ -3,16 +3,12 @@ import {
     Entity,
     PrimaryGeneratedColumn,
     Column,
-    Unique,
     CreateDateColumn,
-    UpdateDateColumn,
-    TableForeignKey,
-    OneToOne,
-    JoinColumn
-  } from "typeorm";
-  import { Length, IsNotEmpty } from "class-validator";
-  
-  @Entity()
+    UpdateDateColumn
+  } from 'typeorm';
+import { Length } from 'class-validator';
+
+@Entity()
   export class Message {
     @PrimaryGeneratedColumn()
     id: number;
@@ -26,11 +22,11 @@ import {
     @Column()
     @Length(1, 100)
     optionName: string;
-    
+
     @Column()
     @CreateDateColumn()
     createdAt: Date;
-  
+
     @Column()
     @UpdateDateColumn()
     updatedAt: Date;

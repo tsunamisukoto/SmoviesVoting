@@ -3,35 +3,29 @@ import {
     Entity,
     PrimaryGeneratedColumn,
     Column,
-    Unique,
     CreateDateColumn,
     UpdateDateColumn,
-    TableForeignKey,
-    OneToOne,
-    JoinColumn,
-    ManyToMany,
     ManyToOne
-  } from "typeorm";
-  import { Length, IsNotEmpty } from "class-validator";
+  } from 'typeorm';
 import { User } from './User';
-  
-  @Entity()
+
+@Entity()
   export class SuggestionVote {
     @PrimaryGeneratedColumn()
     id: number;
 
     @Column()
     suggestionId: number;
-  
+
     @Column()
     @CreateDateColumn()
     createdAt: Date;
-  
+
     @Column()
     @UpdateDateColumn()
     updatedAt: Date;
-    
-    @ManyToOne(type => User)
+
+    @ManyToOne(() => User)
     public user: User;
 
     @Column()

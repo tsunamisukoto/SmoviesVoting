@@ -9,7 +9,7 @@ import { SocialUser } from 'angularx-social-login';
 import { UserSocialLogin } from '../entity/UserSocialLogin';
 export class AuthController {
   static facebookLogin = async (req: Request, res: Response) => {
-    const request = req.body as SocialUser
+    const request = req.body as SocialUser;
 
     const socialLoginRpository = getRepository(UserSocialLogin);
     const requestURL = `https://graph.facebook.com/oauth/access_token?client_id={your-app-id}&client_secret={your-app-secret}&grant_type=client_credentials`;
@@ -23,8 +23,7 @@ export class AuthController {
         if (socialLogin) {
 
           res.send({ token: AuthController.generateTokenForUser(socialLogin.user) });
-        }
-        else {
+        } else {
           const userRepository = getRepository(User);
 
 
@@ -32,13 +31,12 @@ export class AuthController {
             if (existingUser) {
 
               res.status(401).send();
-            }
-            else {
+            } else {
 
               const newUser = new User();
               newUser.username = request.email;
               newUser.email = request.email;
-              newUser.password = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);;
+              newUser.password = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15); ;
               newUser.role = '';
               newUser.photoUrl = request.photoUrl;
               newUser.hashPassword();
@@ -52,7 +50,7 @@ export class AuthController {
               socialLogin.user = newUser;
               socialLoginRpository.save(socialLogin).then(savedUser => {
 
-                userRepository.findOne()
+                userRepository.findOne();
                 res.send({ token: AuthController.generateTokenForUser(savedUser.user) });
               });
             }
@@ -60,7 +58,7 @@ export class AuthController {
         }
       });
     }).catch(() => res.status(401).send());
-  };
+  }
 
   static login = async (req: Request, res: Response) => {
     // Check if username and password are set

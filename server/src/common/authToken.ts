@@ -1,14 +1,14 @@
-import { Request, Response, NextFunction } from "express";
-import { verify } from "jsonwebtoken";
-import config from "../config/config";
+import { Request, Response, NextFunction } from 'express';
+import { verify } from 'jsonwebtoken';
+import config from '../config/config';
 
 export const getAuthToken = (req: Request): AuthTokenModel => {
-  //Get the jwt token from the head
-  const token = <string>req.headers["auth"];
+  // Get the jwt token from the head
+  const token =  req.headers['auth'] as string;
 
-  //Try to validate the token and get data
+  // Try to validate the token and get data
   try {
-    return <AuthTokenModel>verify(token, config.jwtSecret);
+    return  verify(token, config.jwtSecret) as AuthTokenModel;
   } catch (error) {
     console.log('Failed Auth');
     return null;

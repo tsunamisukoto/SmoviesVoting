@@ -25,9 +25,9 @@ export class SuggestionVoteController {
         const addNewVotes =
             sessionQuery.select('vote.suggestionId').getMany().then(existingSuggestions => {
                 const existingSuggestionIds = existingSuggestions.map(s => s.suggestionId);
-           
+
                 const newSuggestionIds = suggestionIds.filter(newSugg => existingSuggestionIds.indexOf(newSugg) === -1);
-            
+
                 return newSuggestionIds.map(suggestionId => {
 
                     const newSuggestionVote = new SuggestionVote();
@@ -43,7 +43,7 @@ export class SuggestionVoteController {
                         }).then(() => {
                             return suggestionVoteRepository.save(newSuggestionVote)
                                 .then((sugg) => {
-                                
+
                                     return sugg;
                                 });
                         });

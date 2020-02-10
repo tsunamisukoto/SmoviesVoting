@@ -1,27 +1,27 @@
-import { Router } from "express";
-import { SuggestionController } from "../controllers/SuggestionController";
-import { checkJwt } from "../middlewares/checkJwt";
-import { checkRole } from "../middlewares/checkRole";
+import { Router } from 'express';
+import { SuggestionController } from '../controllers/SuggestionController';
+import { checkJwt } from '../middlewares/checkJwt';
+import { checkRole } from '../middlewares/checkRole';
 
 const router = Router();
 
-//Get all suggestions
-router.get("/", [checkJwt], SuggestionController.listAll);
+// Get all suggestions
+router.get('/', [checkJwt], SuggestionController.listAll);
 
-//Create a new suggestion
-router.post("/", [checkJwt], SuggestionController.newSuggestion);
+// Create a new suggestion
+router.post('/', [checkJwt], SuggestionController.newSuggestion);
 
-//Edit one suggestion
+// Edit one suggestion
 router.patch(
-    "/:id([0-9]+)",
-    [checkJwt, checkRole(["ADMIN"])],
+    '/:id([0-9]+)',
+    [checkJwt, checkRole(['ADMIN'])],
     SuggestionController.editSuggestion
 );
 
-//Delete one suggestion
+// Delete one suggestion
 router.delete(
-    "/:id([0-9]+)",
-    [checkJwt, checkRole(["ADMIN"])],
+    '/:id([0-9]+)',
+    [checkJwt, checkRole(['ADMIN'])],
     SuggestionController.deleteSuggestion
 );
 

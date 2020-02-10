@@ -3,18 +3,14 @@ import {
     Entity,
     PrimaryGeneratedColumn,
     Column,
-    Unique,
     CreateDateColumn,
     UpdateDateColumn,
-    TableForeignKey,
-    OneToOne,
-    JoinColumn,
     ManyToOne
-  } from "typeorm";
-  import { Length, IsNotEmpty } from "class-validator";
+  } from 'typeorm';
+import { Length } from 'class-validator';
 import { Group } from './Group';
-  
-  @Entity()
+
+@Entity()
   export class Room {
     @PrimaryGeneratedColumn()
     id: number;
@@ -29,16 +25,16 @@ import { Group } from './Group';
     @Column()
     @Length(4, 255)
     description: string;
-  
+
     @Column()
     @CreateDateColumn()
     createdAt: Date;
-  
+
     @Column()
     @UpdateDateColumn()
     updatedAt: Date;
-    
-    
-    @ManyToOne(type => Group)
+
+
+    @ManyToOne(() => Group)
     public group: Group;
   }

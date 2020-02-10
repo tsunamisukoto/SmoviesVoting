@@ -1,5 +1,5 @@
 
-import { listen, Server } from "socket.io";
+import { listen, Server } from 'socket.io';
 
 export class SocketInstance {
     private socketServer: Server;
@@ -28,7 +28,7 @@ export class SocketConnectionSingleton {
         return SocketConnectionSingleton.instance;
     }
 
-    public listen = (server: any): any => { return this.getInstance().listen(server); };
+    public listen = (server: any): any => this.getInstance().listen(server);
     public emit = (event: string, ...args: any[]): any => { this.getInstance().emit(event, args); };
 
 }
