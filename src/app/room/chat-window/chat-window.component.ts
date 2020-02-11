@@ -14,7 +14,9 @@ export class ChatWindowComponent implements OnInit {
   formData;
   @Input() roomId: number;
   ngOnInit(): void {
-    this.socket.on('reload', () => { this.loadMessages() });
+    this.socket.on(`chats-changed-${this.roomId}`, () => {
+      this.loadMessages();
+    });
     this.loadMessages();
   }
   loadMessages(): void {

@@ -3,7 +3,7 @@
     Groups
   </mat-card-title>
   <mat-progress-spinner *ngIf="loading"></mat-progress-spinner>
-  <mat-list>
+  <mat-nav-list>
     <mat-list-item *ngFor="let group of groups">
 
       <app-group-list-item [group]="group">
@@ -14,5 +14,5 @@
       Add
       ++++++++
     </mat-list-item>
-  </mat-list>
+  </mat-nav-list>
 </mat-card>

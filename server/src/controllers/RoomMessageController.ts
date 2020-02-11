@@ -4,6 +4,7 @@ import { validate } from 'class-validator';
 
 import { RoomMessage } from '../entity/RoomMessage';
 import { getAuthToken } from '../common/authToken';
+import { SocketConnection } from '../common/socketConnection';
 
 export class RoomMessageController {
 
@@ -45,7 +46,7 @@ export class RoomMessageController {
             res.status(409).send('roomMessagename already in use');
             return;
         }
-
+        SocketConnection.chatMessageReceived(roomId);
         // If all ok, send 201 response
         res.status(201).send({});
     }

@@ -43,7 +43,7 @@ export class SuggestionController {
             res.status(409).send('suggestionname already in use');
             return;
         }
-        SocketConnection.emit('reload');
+        SocketConnection.suggestionChanged(roomId);
         // If all ok, send 201 response
         res.status(201).send({});
     }
@@ -82,6 +82,7 @@ export class SuggestionController {
             res.status(409).send('suggestionname already in use');
             return;
         }
+        SocketConnection.suggestionChanged(suggestion.roomId);
         // After all send a 204 (no content, but accepted) response
         res.status(204).send();
     }
@@ -98,6 +99,7 @@ export class SuggestionController {
             res.status(404).send('Suggestion not found');
             return;
         }
+        SocketConnection.suggestionChanged(suggestion.roomId);
         suggestionRepository.delete(id);
 
         // After all send a 204 (no content, but accepted) response

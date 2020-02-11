@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit, ChangeDetectorRef } from '@
 import { GroupService, GroupListModel } from './group.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { GroupEditModalComponent } from './group-edit-modal/group-edit-modal.component';
+import { Socket } from 'ngx-socket-io';
 
 @Component({
   selector: 'app-group-list',
@@ -12,9 +13,12 @@ export class GroupListComponent implements OnInit {
 
   groups: Array<GroupListModel>;
   loading = false;
-  constructor(readonly service: GroupService, readonly cdr: ChangeDetectorRef, readonly dialog: MatDialog) { }
+  constructor(readonly service: GroupService, readonly cdr: ChangeDetectorRef, readonly dialog: MatDialog, readonly socket: Socket) { }
   ngOnInit(): void {
     this.loadGroups();
+    this.socket.on('groups-changed', () => {
+      this.loadGroups();
+    });
   }
 
   loadGroups(): void {

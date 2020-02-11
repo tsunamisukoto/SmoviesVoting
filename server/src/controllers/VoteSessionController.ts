@@ -7,6 +7,7 @@ import { getAuthToken } from '../common/authToken';
 import { SuggestionVote } from '../entity/SuggestionVote';
 import { groupBy } from 'rxjs/internal/operators/groupBy';
 import { Suggestion } from '../entity/Suggestion';
+import { SocketConnection } from '../common/socketConnection';
 
 export class VoteSessionController {
 
@@ -44,7 +45,7 @@ export class VoteSessionController {
             res.status(409).send('voteSessionname already in use');
             return;
         }
-
+        SocketConnection.sessionsChanged(roomId);
         // If all ok, send 201 response
         res.status(201).send({});
     }
@@ -83,6 +84,7 @@ export class VoteSessionController {
             res.status(409).send('voteSessionname already in use');
             return;
         }
+        SocketConnection.sessionsChanged(voteSession.roomId);
         // After all send a 204 (no content, but accepted) response
         res.status(204).send();
     }
@@ -100,7 +102,7 @@ export class VoteSessionController {
             return;
         }
         voteSessionRepository.delete(id);
-
+        SocketConnection.sessionsChanged(voteSession.roomId);
         // After all send a 204 (no content, but accepted) response
         res.status(204).send();
     }

@@ -29,7 +29,28 @@ export class SocketConnectionSingleton {
     }
 
     public listen = (server: any): any => this.getInstance().listen(server);
-    public emit = (event: string, ...args: any[]): any => { this.getInstance().emit(event, args); };
+
+    public groupChanged = (): void => {
+        this.getInstance().emit('groups-changed');
+    }
+
+    public roomChanged = (groupId: number): void => {
+        this.getInstance().emit(`rooms-changed-${groupId}`);
+    }
+
+    public chatMessageReceived = (roomId: number): void => {
+        this.getInstance().emit(`chats-changed-${roomId}`);
+    }
+
+    public suggestionChanged = (roomId: number): void => {
+        this.getInstance().emit(`suggestions-changed-${roomId}`);
+    }
+
+    public sessionsChanged = (roomId: number): void => {
+        this.getInstance().emit(`sessions-changed-${roomId}`);
+    }
+
+    public emit = (event: string, ...args: any[]): any => { };
 
 }
 export const SocketConnection = new SocketConnectionSingleton();

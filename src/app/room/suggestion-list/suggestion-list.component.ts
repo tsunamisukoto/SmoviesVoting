@@ -8,8 +8,6 @@ import { Socket } from 'ngx-socket-io';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SuggestionListComponent implements OnInit {
-
-  documents = this.socket.fromEvent<string[]>('documents');
   constructor(readonly service: SuggestionService, readonly cdr: ChangeDetectorRef, readonly voteService: VoteService, readonly socket: Socket) {
 
   }
@@ -20,8 +18,13 @@ export class SuggestionListComponent implements OnInit {
   formData;
   @Input() roomId: number;
   ngOnInit(): void {
-    this.socket.on('reload', () => { this.loadMessages() });
+    this.socket.on(`suggestions-changed-${this.roomId}`, () => {
+      this.loadMessages();
+    });
     this.loadMessages();
+    this.socket.on(`sessions-changed-${this.roomId}`, () => {
+      this.loadSessions();
+    });
     this.loadSessions();
   }
 

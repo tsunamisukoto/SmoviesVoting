@@ -3,6 +3,7 @@ import { getRepository } from 'typeorm';
 import { validate } from 'class-validator';
 
 import { Group } from '../entity/Group';
+import { SocketConnection } from '../common/socketConnection';
 
 export class GroupController {
 
@@ -28,6 +29,7 @@ export class GroupController {
             }
             const groupRepository = getRepository(Group);
             groupRepository.save(group).catch((e) => res.status(409).send(e)).then(g => {
+                SocketConnection.groupChanged();
                 return res.status(201).send(g);
             });
         });
@@ -55,7 +57,10 @@ export class GroupController {
                     }
                     groupRepository.save(group)
                         .catch(e => res.status(409).send('failed'))
-                        .then(g => res.status(204).send());
+                        .then(g => {
+                            SocketConnection.groupChanged();
+                            res.status(204).send();
+                        });
                 });
 
             });
@@ -70,6 +75,9 @@ export class GroupController {
             .findOneOrFail(id)
             .catch(e => res.status(404).send('Group not found'))
             .then(group => groupRepository.delete(id))
-            .then(() => res.status(200).send());
+            .then(() => {
+                SocketConnection.groupChanged();
+                res.status(200).send();
+            });
     }
 }

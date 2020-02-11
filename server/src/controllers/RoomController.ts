@@ -3,6 +3,7 @@ import { getRepository } from 'typeorm';
 import { validate } from 'class-validator';
 
 import { Room } from '../entity/Room';
+import { SocketConnection } from '../common/socketConnection';
 
 export class RoomController {
 
@@ -45,8 +46,10 @@ export class RoomController {
             const roomRepository = getRepository(Room);
             roomRepository.save(room).catch(e => {
                 res.status(409).send('roomname already in use');
-            }).then(room =>
-                res.status(201).send(room));
+            }).then(room => {
+                SocketConnection.roomChanged(groupId);
+                res.status(201).send(room);
+            });
         });
     }
 

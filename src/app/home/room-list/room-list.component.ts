@@ -3,6 +3,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { RoomService, RoomListModel } from './room.service';
 import { ActivatedRoute } from '@angular/router';
 import { RoomEditModalComponent } from './room-edit-modal/room-edit-modal.component';
+import { Socket } from 'ngx-socket-io';
 
 @Component({
   selector: 'app-room-list',
@@ -17,12 +18,17 @@ export class RoomListComponent implements OnInit {
 
   constructor(readonly service: RoomService,
               readonly activatedRoute: ActivatedRoute,
-              readonly cdr: ChangeDetectorRef, 
-              readonly dialog: MatDialog) { }
+              readonly cdr: ChangeDetectorRef,
+              readonly dialog: MatDialog,
+              readonly socket: Socket) { }
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
-      this.groupId = params['groupId'];
+      this.groupId = params.groupId;
       this.loadRooms();
+
+      this.socket.on(`rooms-changed-${this.groupId}`, () => {
+        this.loadRooms();
+      });
     });
   }
   loadRooms(): void {
