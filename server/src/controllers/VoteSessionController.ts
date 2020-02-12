@@ -5,7 +5,6 @@ import { validate } from 'class-validator';
 import { VoteSession } from '../entity/VoteSession';
 import { getAuthToken } from '../common/authToken';
 import { SuggestionVote } from '../entity/SuggestionVote';
-import { groupBy } from 'rxjs/internal/operators/groupBy';
 import { Suggestion } from '../entity/Suggestion';
 import { SocketConnection } from '../common/socketConnection';
 
