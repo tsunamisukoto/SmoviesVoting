@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { DetailedGroupModel, GroupService } from '../group.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-group',
@@ -6,10 +8,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./group.component.css']
 })
 export class GroupComponent implements OnInit {
-
-  constructor() { }
+  group: DetailedGroupModel;
+  groupId: number;
+  constructor(readonly service: GroupService, readonly cdr: ChangeDetectorRef, readonly activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
+    this.activatedRoute.params.subscribe(params => {
+      this.groupId = params.groupId;
+      this.service.getGroup(this.groupId).then(group => {
+        this.group = group;
+        this.cdr.markForCheck();
+      });
+    });
   }
 
 }

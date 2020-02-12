@@ -11,16 +11,19 @@ import { MaterialModule } from './core/material/material.module';
 import { RoomModule } from './room/room.module';
 import { ChatWindowComponent } from './room/chat-window/chat-window.component';
 import { AuthGuard } from './core/auth-guard';
+import { UnAuthGuard } from './core/un-auth-guard';
 
 
 const routes: Routes = [
    {
       path: '',
-      component: SignInPageComponent
+      component: SignInPageComponent,
+      canActivate: [UnAuthGuard]
    },
    {
       path: 'register',
-      component: RegisterComponent
+      component: RegisterComponent,
+      canActivate: [UnAuthGuard]
    },
    {
       path: 'home',

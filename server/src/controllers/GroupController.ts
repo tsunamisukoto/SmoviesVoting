@@ -11,16 +11,24 @@ export class GroupController {
         // Get groups from database
         const groupRepository = getRepository(Group);
         groupRepository.find({
-            select: ['id', 'name'] // We dont want to send the passwords on response
+            select: ['id', 'name', 'shortDescription'] // We dont want to send the passwords on response
         }).then(groups => res.send(groups));
     }
 
-    static newGroup = async (req: Request<{ name, description }>, res: Response) => {
+    static getById = async (req: Request, res: Response) => {
+        const id = parseInt(req.params.id);
+        const groupRepository = getRepository(Group);
+
+        groupRepository.findOne(id, {select: ['id', 'name', 'shortDescription', 'description']}).then(group => res.send(group));
+    }
+
+    static newGroup = async (req: Request<{ name, description, shortDescription }>, res: Response) => {
         // Get parameters from the body
-        const { name, description } = req.body;
+        const { name, description, shortDescription } = req.body;
         const group = new Group();
         group.name = name;
         group.description = description;
+        group.shortDescription = shortDescription;
         // Validade if the parameters are ok
         validate(group).then(errors => {
             if (errors.length > 0) {

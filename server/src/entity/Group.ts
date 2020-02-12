@@ -23,7 +23,11 @@ export class Group {
   name: string;
 
   @Column()
-  @Length(4, 255)
+  @Length(0, 255)
+  shortDescription: string;
+
+  @Column()
+  @Length(0, 5000)
   description: string;
 
   @Column()

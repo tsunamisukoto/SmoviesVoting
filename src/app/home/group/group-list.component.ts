@@ -32,7 +32,7 @@ export class GroupListComponent implements OnInit {
 
   openEditModal(id: number): void {
     const dialogRef = this.dialog.open(GroupEditModalComponent, {
-      width: '250px',
+      width: '500px',
       data: { id }
     });
 

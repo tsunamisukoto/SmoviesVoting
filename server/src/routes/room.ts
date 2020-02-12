@@ -24,7 +24,7 @@ router.delete(
     [checkJwt, checkRole(['ADMIN'])],
     RoomController.deleteRoom
 );
-// Delete one room
+
 router.get(
     '/:id([0-9]+)',
     [checkJwt, checkRole(['ADMIN'])],

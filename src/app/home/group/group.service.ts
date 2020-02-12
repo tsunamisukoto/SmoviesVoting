@@ -12,7 +12,11 @@ export class GroupService {
   getGroups = (all: boolean): Promise<GroupListModel[]> => {
     return this.http.get<GroupListModel[]>('api/group', { params: { all: all.toString() } })
       .toPromise();
-  };
+  }
+
+  getGroup(groupId: number): Promise<DetailedGroupModel> {
+    return this.http.get<DetailedGroupModel>(`/api/group/${groupId}`).toPromise();
+  }
 
   addGroup = (newGroup): Promise<any> => {
     return this.http.post('api/group', newGroup)
@@ -23,4 +27,9 @@ export class GroupService {
 export class GroupListModel {
   public id: number;
   public name: string;
+  public shortDescription: string;
+}
+
+export class DetailedGroupModel extends GroupListModel {
+  public description: string;
 }

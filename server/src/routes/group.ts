@@ -25,4 +25,10 @@ router.delete(
     GroupController.deleteGroup
 );
 
+router.get(
+    '/:id([0-9]+)',
+    [checkJwt],
+    GroupController.getById
+);
+
 export default router;

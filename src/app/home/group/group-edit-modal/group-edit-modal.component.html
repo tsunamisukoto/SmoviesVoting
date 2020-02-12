@@ -2,8 +2,14 @@
   <mat-form-field>
     <input matInput name="name" placeholder="Name" [(ngModel)]="formData.name" required />
   </mat-form-field>
+
   <mat-form-field>
-    <textarea matInput name="description" placeholder="Description" [(ngModel)]="formData.description" required></textarea>
+    <textarea matInput name="shortDescription" placeholder="Short Description" [(ngModel)]="formData.shortDescription"
+      required rows="3"></textarea>
+  </mat-form-field>
+  <mat-form-field>
+    <textarea matInput name="description" placeholder="Description" [(ngModel)]="formData.description" required
+      rows="5"></textarea>
   </mat-form-field>
 
   <button type="submit" (click)="save()" mat-raised-button>Save</button>
