@@ -1,8 +1,15 @@
-<span (click)="enterGroup()" href="">
-  <h5>
-    {{group.name}}
-  </h5>
+<div (click)="enterGroup()" href="">
+  <div>
+    <strong>
+      {{group.name}}
+
+      <mat-icon (click)="editGroup()" *ngIf="canEditGroup">edit</mat-icon>
+    </strong>
+  </div>
   <div *ngIf="group.shortDescription">
     {{group.shortDescription}}
   </div>
-</span>
+  <em *ngIf="!group.shortDescription">
+    No Description
+  </em>
+</div>

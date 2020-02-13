@@ -4,14 +4,14 @@ import { validate } from 'class-validator';
 
 import { Group } from '../entity/Group';
 import { SocketConnection } from '../common/socketConnection';
+import { getAuthToken } from '../common/authToken';
 
 export class GroupController {
 
     static listAll = async (req: Request, res: Response) => {
-        // Get groups from database
         const groupRepository = getRepository(Group);
         groupRepository.find({
-            select: ['id', 'name', 'shortDescription'] // We dont want to send the passwords on response
+            select: ['id', 'name', 'shortDescription', ] 
         }).then(groups => res.send(groups));
     }
 
@@ -29,6 +29,7 @@ export class GroupController {
         group.name = name;
         group.description = description;
         group.shortDescription = shortDescription;
+        group.createdUserId = getAuthToken(req).userId;
         // Validade if the parameters are ok
         validate(group).then(errors => {
             if (errors.length > 0) {

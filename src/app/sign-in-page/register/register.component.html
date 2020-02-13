@@ -6,20 +6,20 @@
     <form>
 
       <mat-form-field>
-        <input matInput name="username" placeholder="Username" [(ngModel)]="formData.username" />
+        <input matInput name="username" placeholder="Username" [(ngModel)]="formData.username" required />
       </mat-form-field>
       <mat-form-field>
-        <input matInput name="password" placeholder="Passowrd" type="password" [(ngModel)]="formData.password" />
+        <input matInput name="password" placeholder="Password" type="password" [(ngModel)]="formData.password" required  />
       </mat-form-field>
       <mat-form-field>
         <input matInput name="confirmPassword" placeholder="Confirm Password" type="password"
-          [(ngModel)]="formData.confirmPassword" />
+          [(ngModel)]="formData.confirmPassword"  required />
       </mat-form-field>
       <mat-form-field>
-        <input matInput name="role" placeholder="Role" [(ngModel)]="formData.role" />
+        <input matInput name="role" placeholder="Role" [(ngModel)]="formData.role" required  />
       </mat-form-field>
       <mat-form-field>
-        <input matInput name="email" placeholder="Email" [(ngModel)]="formData.email" />
+        <input matInput name="email" placeholder="Email" [(ngModel)]="formData.email" required  />
       </mat-form-field>
       <button type="submit" (click)="register()" mat-raised-button>Register</button>
       <button routerLink="/" mat-raised-button>Cancel</button>

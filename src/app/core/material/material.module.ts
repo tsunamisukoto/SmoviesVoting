@@ -12,6 +12,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatTableModule } from '@angular/material/table';
+import { MatIconModule } from '@angular/material/icon';
 const modules = [
   MatButtonModule,
   MatFormFieldModule,
@@ -25,7 +26,8 @@ const modules = [
   MatGridListModule,
   MatDialogModule,
   MatChipsModule,
-  MatTableModule
+  MatTableModule,
+  MatIconModule
 ];
 
 @NgModule({

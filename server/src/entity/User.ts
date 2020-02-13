@@ -45,6 +45,9 @@ export class User {
   @UpdateDateColumn()
   updatedAt: Date;
 
+  @Column()
+  createdUserId: number;
+
   @ManyToMany(() => Group, group => group.users)
   groups: Group[];
 

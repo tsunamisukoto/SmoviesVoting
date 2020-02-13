@@ -8,13 +8,15 @@ import { Router } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GroupListItemComponent implements OnInit {
+  canEditGroup: boolean;
 
   @Input() group: GroupListModel;
   constructor(readonly route: Router) { }
-
   ngOnInit(): void {
   }
+  editGroup(): void {
 
+  }
   enterGroup(): void {
     this.route.navigate(['/group', this.group.id]);
   }

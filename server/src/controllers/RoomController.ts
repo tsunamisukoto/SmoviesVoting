@@ -4,6 +4,7 @@ import { validate } from 'class-validator';
 
 import { Room } from '../entity/Room';
 import { SocketConnection } from '../common/socketConnection';
+import { getAuthToken } from '../common/authToken';
 
 export class RoomController {
 
@@ -36,6 +37,7 @@ export class RoomController {
         const room = new Room();
         room.name = name;
         room.description = description;
+        room.createdUserId = getAuthToken(req).userId;
         room.groupId = groupId;
         validate(room).then(errors => {
 
@@ -46,9 +48,9 @@ export class RoomController {
             const roomRepository = getRepository(Room);
             roomRepository.save(room).catch(e => {
                 res.status(409).send('roomname already in use');
-            }).then(room => {
+            }).then(r => {
                 SocketConnection.roomChanged(groupId);
-                res.status(201).send(room);
+                res.status(201).send(r);
             });
         });
     }

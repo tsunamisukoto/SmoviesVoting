@@ -4,13 +4,25 @@
   </mat-card-title>
   <div style="height: 500px; overflow: auto; overflow-x:hidden;">
     <mat-list>
-      <mat-list-item *ngFor="let message of messages">
+      <ng-container *ngFor="let message of messages">
 
-        <div >
-          <em>{{message.user.username}}:</em>
-          {{message.message}}
-        </div>
-      </mat-list-item>
+        <mat-list-item>
+
+          <div style="width:100%">
+            <strong>{{message.user.username}}:</strong>
+            {{message.message}}
+            <br />
+            <div style="text-align: right;">
+              <em>
+                {{message.createdAt | date :'medium'}}
+              </em>
+            </div>
+          </div>
+        </mat-list-item>
+
+        <mat-divider></mat-divider>
+      </ng-container>
+
     </mat-list>
   </div>
   <div>

@@ -31,6 +31,9 @@ export class Group {
   description: string;
 
   @Column()
+  createdUserId: number;
+
+  @Column()
   @CreateDateColumn()
   createdAt: Date;
 
