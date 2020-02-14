@@ -20,7 +20,7 @@ RUN npm install -g @angular/cli@latest
 COPY . /app
 
 # generate build
-RUN ng build --output-path=dist
+RUN node --max_old_space_size=2048 ./node_modules/@angular/cli/bin/ng build --output-path=dist --verbose
 
 ############
 ### prod ###
