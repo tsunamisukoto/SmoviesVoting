@@ -35,7 +35,6 @@ export class SuggestionController {
             return;
         }
 
-        
         // Try to save. If fails, the suggestionname is already in use
         const suggestionRepository = getRepository(Suggestion);
         try {

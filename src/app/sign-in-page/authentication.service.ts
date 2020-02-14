@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { SocialUser } from 'angularx-social-login';
+import * as  moment from 'moment';
 @Injectable({
   providedIn: 'root'
 })
@@ -9,27 +10,26 @@ export class AuthenticationService {
 
   constructor(private readonly http: HttpClient) { }
   signInWithFacebook = (user: SocialUser): Promise<any> => {
-    return this.http.post<{ token: string }>('api/auth/facebookLogin', user)
-      .pipe(map(token => this.setSession(token.token)))
+    return this.http.post<SignInResponse>('api/auth/facebookLogin', user)
+      .pipe(map(token => this.setSession(token)))
       .toPromise();
   }
-  signIn = (request: SignInRequest): Promise<string> => {
-    // return of(null).toPromise();
-    return this.http.post<{ token: string }>('api/auth/login', request)
-      .pipe(map(token => this.setSession(token.token)))
+  signIn = (request: SignInRequest): Promise<SignInResponse> => {
+    return this.http.post<SignInResponse>('api/auth/login', request)
+      .pipe(map(token => this.setSession(token)))
       .toPromise();
   }
 
-  register = (request: RegisterRequest): Promise<string> => {
-    // return of(null).toPromise();
-    return this.http.post<{ token: string }>('api/auth/register', request)
-      .toPromise().then(response => this.setSession(response.token));
+  register = (request: RegisterRequest): Promise<SignInResponse> => {
+    return this.http.post<SignInResponse>('api/auth/register', request)
+      .toPromise().then(response => this.setSession(response));
   }
-  private setSession = (authResult: string): string => {
-    // const expiresAt = moment().add(authResult.expiresIn, 'second');
+  private setSession = (authResult: SignInResponse): SignInResponse => {
+    const expiresAt = moment().add(authResult.expiresIn, 'hour');
 
-    localStorage.setItem('id_token', authResult);
-    // localStorage.setItem("expires_at", JSON.stringify(expiresAt.valueOf()));
+    localStorage.setItem('id_token', authResult.token);
+    localStorage.setItem('expires_at', JSON.stringify(expiresAt.valueOf()));
+
     return authResult;
   }
 
@@ -38,12 +38,13 @@ export class AuthenticationService {
     localStorage.removeItem('expires_at');
   }
 
-  public isLoggedIn() {
-    // return moment().isBefore(this.getExpiration());
-    return localStorage.getItem('id_token');
+  isLoggedIn = (): boolean => {
+    console.log((this.getExpiration()));
+    console.log(moment().isBefore(this.getExpiration()));
+    return localStorage.getItem('id_token') && moment().isBefore(this.getExpiration());
   }
 
-  isLoggedOut() {
+  isLoggedOut = (): boolean => {
     return !this.isLoggedIn();
   }
 
@@ -51,11 +52,11 @@ export class AuthenticationService {
     return localStorage.getItem('id_token') as string;
   }
 
-  // getExpiration() {
-  //   const expiration = localStorage.getItem("expires_at");
-  //   const expiresAt = JSON.parse(expiration);
-  //   return moment(expiresAt);
-  // }
+  getExpiration = (): any => {
+    const expiration = localStorage.getItem('expires_at');
+    const expiresAt = JSON.parse(expiration);
+    return moment(expiresAt);
+  }
 }
 
 export class SignInRequest {
@@ -71,5 +72,6 @@ export class RegisterRequest {
   role: string;
 }
 export class SignInResponse {
-
+  token: string;
+  expiresIn: string;
 }

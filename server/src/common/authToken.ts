@@ -19,3 +19,4 @@ export class AuthTokenModel {
   userId: number;
   username: string;
 }
+

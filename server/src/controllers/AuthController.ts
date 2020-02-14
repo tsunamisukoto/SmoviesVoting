@@ -7,6 +7,7 @@ import { User } from '../entity/User';
 import config from '../config/config';
 import { SocialUser } from 'angularx-social-login';
 import { UserSocialLogin } from '../entity/UserSocialLogin';
+import { AuthTokenModel } from '../common/authToken';
 export class AuthController {
   static facebookLogin = async (req: Request, res: Response) => {
     const request = req.body as SocialUser;
@@ -22,7 +23,7 @@ export class AuthController {
       }).then((socialLogin) => {
         if (socialLogin) {
 
-          res.send({ token: AuthController.generateTokenForUser(socialLogin.user) });
+          res.send(AuthController.generateTokenForUser(socialLogin.user));
         } else {
           const userRepository = getRepository(User);
 
@@ -36,7 +37,7 @@ export class AuthController {
               const newUser = new User();
               newUser.username = request.email;
               newUser.email = request.email;
-              newUser.password = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15); ;
+              newUser.password = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);;
               newUser.role = '';
               newUser.photoUrl = request.photoUrl;
               newUser.hashPassword();
@@ -51,7 +52,7 @@ export class AuthController {
               socialLoginRpository.save(socialLogin).then(savedUser => {
 
                 userRepository.findOne();
-                res.send({ token: AuthController.generateTokenForUser(savedUser.user) });
+                res.send(AuthController.generateTokenForUser(savedUser.user));
               });
             }
           });
@@ -80,16 +81,17 @@ export class AuthController {
         }
 
         // Send the jwt in the response
-        res.send({ token: AuthController.generateTokenForUser(user) });
+        res.send(AuthController.generateTokenForUser(user));
       });
   }
-  private static generateTokenForUser = (user: User): string => {
+  private static generateTokenForUser = (user: User): AuthTokenResponse => {
     const payload = { userId: user.id, username: user.username };
-
-    const expiry = { expiresIn: '1h' };
+    const expiresIn = 1;
+    const expiry = { expiresIn: `${expiresIn}h` };
     // Sign JWT, valid for 1 hour
     const token = jwt.sign(payload, config.jwtSecret, expiry);
-    return token;
+
+    return { expiresIn, token };
   }
   static register = async (req: Request, res: Response) => {
     const userRepository = getRepository(User);
@@ -154,4 +156,9 @@ export class AuthController {
 
     res.status(204).send();
   }
+}
+
+export class AuthTokenResponse {
+  expiresIn: number;
+  token: string;
 }
