@@ -39,7 +39,7 @@
     "moment": "^2.24.0",
     "mongoose": "^5.8.11",
     "ngx-socket-io": "^3.0.1",
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.0",
     "openssl": "^1.1.0",
     "rxjs": "^6.5.4",
     "scss": "^0.2.4",
