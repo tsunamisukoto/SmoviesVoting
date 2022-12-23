@@ -35,7 +35,7 @@
     "google-search": "0.0.5",
     "gulp-spawn": "^0.4.5",
     "helmet": "^3.21.2",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "moment": "^2.24.0",
     "mongoose": "^5.8.11",
     "ngx-socket-io": "^3.0.1",
